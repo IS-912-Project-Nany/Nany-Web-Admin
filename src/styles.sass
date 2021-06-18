@@ -46,11 +46,10 @@ body
     border: none !important
     margin-left: 5px !important
 
-
-
 #menu-admin img 
-    width: 180px
+    width: auto
     margin: 5px 20px
+    height: 62.14px
 
 #menu-admin
     background-color: #fff
@@ -60,6 +59,7 @@ body
     position: relative
     margin-top: 24px
     color: $color-pink1
+
 /*Table Styles*/
 .container 
     background-color: #fff
@@ -67,6 +67,23 @@ body
     margin-left: 10px
     margin-right: 10px
     width: 100%
+
+.p-toolbar
+    display: block !important
+
+.btn-new
+    background-color: $color-blue1
+    border-radius: 25px
+    width: 15%
+    margin-right: 20px
+    border: none
+
+.btn-delete
+    background-color: $color-pink1
+    opacity: 0.9
+    width: 45px !important
+    border-radius: 50%
+    border: 1px solid $color-pink2
 
 #ad-title
     width: 100%
@@ -77,18 +94,30 @@ body
 #ad-title h2 
     text-align: center
 
-.p-toolbar
-    display: block !important
+#buscar
+    margin-top: 0px
+    display: flex
+    float: right
 
-.btn-new
+#admim-modal textarea, #admim-modal input 
+    background-color: $color-pink3
+    border: none
+    margin-top: 5px
+    margin-bottom: 5px
+    border-radius: 10px
+
+#admim-modal label 
+    font-family: Roboto
+
+#btn-mmodal1
     background-color: $color-blue1
-    border-radius: 25px
-    width: 15%
-    margin-right: 20px
+    border-radius: 30px
+    margin-top: 10px
+    color: #fff
 
-.btn-delete
-    background-color: $color-pink1
-    opacity: 0.9
-    width: 45px !important
-    border-radius: 50%
-    border: 1px solid $color-pink2
+#btn-mmodal2
+    background-color: $color-blue2
+    border-radius: 30px
+    margin-top: 10px
+    color: #fff
+    
