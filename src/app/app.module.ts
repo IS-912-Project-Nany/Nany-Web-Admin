@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ProductService } from '../app/shared/services/product.service';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,7 +12,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { TabMenuModule } from 'primeng/tabmenu';
-import { ProductosComponent } from './productos/productos.component';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
 import { SliderModule } from 'primeng/slider';
@@ -32,6 +32,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
+import { ProductosComponent } from './productos/productos.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,10 +66,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputTextareaModule,
     RouterModule.forRoot([
       {path:'',component: AppComponent}
-
 		])
   ],
-  providers: [MessageService, ConfirmationService],
+  providers: [ProductService,MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 
