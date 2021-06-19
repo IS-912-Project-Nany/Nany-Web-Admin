@@ -1,6 +1,6 @@
-<div id="menu-admin">
+<div id="menu-admin" *ngIf="logged">
     <img src="../assets/img/Logo-Nany.png" alt="">
     <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
 </div>
-<app-productos></app-productos>
+<app-login></app-login>
 
