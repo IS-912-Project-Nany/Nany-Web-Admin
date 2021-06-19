@@ -33,10 +33,12 @@ import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
 import { ProductosComponent } from './productos/productos.component';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ProductosComponent
+    ProductosComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

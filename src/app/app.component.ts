@@ -8,6 +8,7 @@ import {MenuItem} from 'primeng/api';
 })
 export class AppComponent {
   title = 'admin';
+  logged = false;
 
   items: MenuItem[];
   activeItem: MenuItem;
