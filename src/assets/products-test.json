@@ -7,7 +7,7 @@
 			"price": 65,
 			"image": "Logo-Nany.png",
 			"quantity": 24,
-			"company": 5
+			"company": "Accesorios"
 		},
 		{
 			"id": "102130",
@@ -16,7 +16,7 @@
 			"price": 65,
 			"image": "Logo-Nany.png",
 			"quantity": 24,
-			"company": 5
+			"company": "Accesorios"
 		},
 		{
 			"id": "1230",
@@ -25,7 +25,7 @@
 			"price": 65,
 			"image": "Logo-Nany.png",
 			"quantity": 24,
-			"company": 5
+			"company": "Accesorios"
 		},
 		{
 			"id": "10213",
@@ -34,7 +34,7 @@
 			"price": 65,
 			"image": "Logo-Nany.png",
 			"quantity": 24,
-			"company": 5
+			"company": "Accesorios"
 		},
 		{
 			"id": "104200",
@@ -43,7 +43,7 @@
 			"price": 65,
 			"image": "Logo-Nany.png",
 			"quantity": 24,
-			"company": 5
+			"company": "Accesorios"
 		},
 		{
 			"id": "100",
@@ -52,7 +52,7 @@
 			"price": 65,
 			"image": "Logo-Nany.png",
 			"quantity": 24,
-			"company": 5
+			"company": "Accesorios"
 		},
 		{
 			"id": "1020",
@@ -61,7 +61,7 @@
 			"price": 65,
 			"image": "Logo-Nany.png",
 			"quantity": 24,
-			"company": 5
+			"company": "Accesorios"
 		}
 	]
 }
