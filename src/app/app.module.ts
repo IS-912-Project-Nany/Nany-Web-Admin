@@ -35,13 +35,15 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProductosComponent } from './productos/productos.component';
 import { LoginComponent } from './login/login.component';
 import { BoxOptionsComponent } from './login/box-options/box-options.component';
+import { NavbarComponent } from './navbar/navbar.component';
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     ProductosComponent,
     LoginComponent,
-    BoxOptionsComponent
-  ],
+    BoxOptionsComponent,
+      NavbarComponent
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
