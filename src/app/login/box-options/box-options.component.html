@@ -1,0 +1,40 @@
+<div class="container" id="login-container">
+  <div class="row">
+    <img class="img-login" src="../../../assets/img/Logo-Nany-trans-1.png" alt="Nany">
+    <div *ngIf="!isLogged">
+      <h4>Inicio de sesión para administración</h4>
+      <div class="content-login">
+        <h5>Correo Electrónico</h5>
+        <input class="form-control" type="email" placeholder="@email">
+        <h5>Contraseña</h5>
+        <input type="password" class="form-control">
+        <button type="button" (click)="login()" class="btn btn-login"> Iniciar Sesión</button>
+      </div>
+    </div>
+    <div *ngIf="isLogged">
+      <div class="content-login" style="background-color: #FFE9C7">
+        <h4 class="mt-0 mb-5">¿Qué deseas administrar hoy?</h4>
+        <div class="col-6 d-inline-block">
+          <button class="btn-opt-login">
+            <img src="../../../assets/iconos/empresa-blanco.png">
+            Empresas</button>
+        </div>
+        <div class="col-6 d-inline-block">
+          <button class="btn-opt-login">
+            <img src="../../../assets/iconos/caja-blanco.png">
+            Productos</button>
+        </div>
+        <div class="col-6 d-inline-block mt-4">
+          <button class="btn-opt-login">
+            <img src="../../../assets/iconos/moto-blanco.png">
+            Motoristas</button>
+        </div>
+        <div class="col-6 d-inline-block mt-4">
+          <button class="btn-opt-login">
+            <img src="../../../assets/iconos/nota-blanco.png">
+            Ordenes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
