@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   getOption(e) {
     console.log(e);
     this.optSelected = e;
+    document.getElementById("body").style.backgroundColor = '#FFE9C7';
   }
 
 
