@@ -1,0 +1,144 @@
+<app-navbar></app-navbar>
+<div id="ad-title">
+    <h2>Gestión de motoristas</h2>
+</div>
+<div class="container-fluid">
+    <p-toast></p-toast>
+
+    <div class="card">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="btn-new" (click)="openNew()"></button>
+                <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="btn-delete"
+                    (click)="deleteSelectedCarriers()"
+                    [disabled]="!selectedCarriers || !selectedCarriers.length"></button>
+            </ng-template>
+            <span class="p-input-icon-left" id="buscar">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Buscar" />
+            </span>
+        </p-toolbar>
+
+        <p-table #dt [value]="carriers" [rows]="10" [paginator]="true"
+            [globalFilterFields]="['name','country.name','representative.name','status']"
+            [(selection)]="selectedCarriers" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} motoristas"
+            [showCurrentPageReport]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="name">Nombre<p-sortIcon field="name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="lastname">Apellido<p-sortIcon field="lastname"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="city">Ciudad<p-sortIcon field="city"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="gender">Género<p-sortIcon field="gender"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="birthday">Nacimiento<p-sortIcon field="birthday"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="motorcycle">Motocicleta<p-sortIcon field="motorcycle"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="license">Licencia<p-sortIcon field="license"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="internet">Datos móviles<p-sortIcon field="internet"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="experience">Experiencia<p-sortIcon field="experience"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="status">Estado<p-sortIcon field="status"></p-sortIcon>
+                    </th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-carrier>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="carrier"></p-tableCheckbox>
+                    </td>
+                    <td>{{carrier.name}}</td>
+                    <td>{{carrier.lastname}}</td>
+                    <td>{{carrier.city}}</td>
+                    <td>{{carrier.gender}}</td>
+                    <td>{{carrier.birthday}}</td>
+                    <td>{{carrier.motorcycle}}</td>
+                    <td>{{carrier.license}}</td>
+                    <td>{{carrier.internet}}</td>
+                    <td>{{carrier.experience}}</td>
+                    <td>{{carrier.status}}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                            (click)="editCarrier(carrier)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="deleteCarrier(carrier)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    En total hay {{carriers ? carriers.length : 0 }} motoristas.
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!--Modal Create Company-->
+
+    <p-dialog [(visible)]="carrierDialog" [style]="{width: '450px'}" header="Detalle de Motorista" [modal]="true"
+        styleClass="p-fluid" id="admim-modal">
+        <ng-template pTemplate="content">
+            <div class="p-field">
+                <label for="name">Nombre</label>
+                <input type="text" pInputText id="name" [(ngModel)]="carrier.name" required autofocus />
+                <small class="p-error" *ngIf="submitted && !carrier.name">Name is required.</small>
+            </div>
+            <div class="p-field">
+                <label class="p-mb-3">Apellido</label>
+                <input type="text" pInputText id="lastname" [(ngModel)]="carrier.lastname" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="city">Ciudad</label>
+                <input type="text" pInputText id="city" [(ngModel)]="carrier.city" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="gender">Género</label>
+                <input type="text" pInputText id="gender" [(ngModel)]="carrier.gender" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="birthday">Fecha de nacimiento</label>
+                <input type="text" pInputText id="birthday" [(ngModel)]="carrier.birthday" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="motorcycle">¿Posee motocicleta?</label>
+                <input type="text" pInputText id="motorcycle" [(ngModel)]="carrier.motorcycle" required autofocus />
+            </div>
+            <div class="p-field">
+                <label class="p-mb-3">Licencia vigente</label>
+                <input type="text" pInputText id="license" [(ngModel)]="carrier.license" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="internet">Datos móviles</label>
+                <input type="text" pInputText id="internet" [(ngModel)]="carrier.internet" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="experience">Experiencia</label>
+                <input type="text" pInputText id="experience" [(ngModel)]="carrier.experience" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="status">Estado</label>
+                <input type="text" pInputText id="status" [(ngModel)]="carrier.status" required autofocus />
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" id="btn-mmodal1"
+                (click)="hideDialog()"></button>
+            <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" id="btn-mmodal2"
+                (click)="saveCarrier()"></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+</div>
