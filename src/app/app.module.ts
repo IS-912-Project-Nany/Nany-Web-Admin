@@ -4,6 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductService } from '../app/shared/services/product.service';
+import { CompanyService } from './shared/services/company.service';
+import { CarrierService } from './shared/services/carrier.service';
+import { OrderService } from './shared/services/order.service';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -36,13 +39,20 @@ import { ProductosComponent } from './productos/productos.component';
 import { LoginComponent } from './login/login.component';
 import { BoxOptionsComponent } from './login/box-options/box-options.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { EmpresasComponent } from './empresas/empresas.component';
+import { MotoristasComponent } from './motoristas/motoristas.component';
+import { OrdenesComponent } from './ordenes/ordenes.component';
+
 @NgModule({
   declarations: [	
     AppComponent,
     ProductosComponent,
     LoginComponent,
     BoxOptionsComponent,
-      NavbarComponent
+      NavbarComponent,
+      EmpresasComponent,
+      MotoristasComponent,
+      OrdenesComponent
    ],
   imports: [
     BrowserModule,
@@ -74,7 +84,7 @@ import { NavbarComponent } from './navbar/navbar.component';
       {path:'',component: AppComponent}
 		])
   ],
-  providers: [ProductService,MessageService, ConfirmationService],
+  providers: [ProductService, CompanyService, CarrierService, OrderService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 
