@@ -1,0 +1,123 @@
+<app-navbar></app-navbar>
+<div id="ad-title">
+    <h2>Gestión de órdenes</h2>
+</div>
+<div class="container-fluid">
+    <p-toast></p-toast>
+
+    <div class="card">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="btn-new" (click)="openNew()"></button>
+                <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="btn-delete"
+                    (click)="deleteSelectedOrders()"
+                    [disabled]="!selectedOrders || !selectedOrders.length"></button>
+            </ng-template>
+            <span class="p-input-icon-left" id="buscar">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Buscar" />
+            </span>
+        </p-toolbar>
+
+        <p-table #dt [value]="orders" [rows]="10" [paginator]="true"
+            [globalFilterFields]="['name','country.name','representative.name','status']"
+            [(selection)]="selectedOrders" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} órdenes"
+            [showCurrentPageReport]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="numberOrder">No. Orden<p-sortIcon field="numberOrder"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="nameProduct">Producto<p-sortIcon field="nameProduct"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="totalOrder">Total pedido<p-sortIcon field="totalOrder"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="date">Fecha<p-sortIcon field="date"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="nameClient">Cliente<p-sortIcon field="nameClient"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ubication">Ubicación<p-sortIcon field="ubication"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="nameCarrier">Motorista<p-sortIcon field="nameCarrier"></p-sortIcon>
+                    </th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="order"></p-tableCheckbox>
+                    </td>
+                    <td>{{order.numberOrder}}</td>
+                    <td>{{order.nameProduct}}</td>
+                    <td>{{order.totalOrder}}</td>
+                    <td>{{order.date}}</td>
+                    <td>{{order.nameClient}}</td>
+                    <td>{{order.ubication}}</td>
+                    <td>{{order.nameCarrier}}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                            (click)="editOrder(order)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="deleteOrder(order)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    En total hay {{orders ? orders.length : 0 }} órdenes.
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!--Modal Create Company-->
+
+    <p-dialog [(visible)]="orderDialog" [style]="{width: '450px'}" header="Detalle de Orden" [modal]="true"
+        styleClass="p-fluid" id="admim-modal">
+        <ng-template pTemplate="content">
+            <div class="p-field">
+                <label for="numberOrder">No. Orden</label>
+                <input type="text" pInputText id="numberOrder" [(ngModel)]="order.numberOrder" required autofocus />
+                <small class="p-error" *ngIf="submitted && !order.numberOrder">Number is required.</small>
+            </div>
+            <div class="p-field">
+                <label class="p-mb-3">Producto</label>
+                <input type="text" pInputText id="nameProduct" [(ngModel)]="order.nameProduct" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="totalOrder">Total orden</label>
+                <input type="text" pInputText id="totalOrder" [(ngModel)]="order.totalOrder" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="date">Fecha</label>
+                <input type="text" pInputText id="date" [(ngModel)]="order.date" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="nameClient">Cliente</label>
+                <input type="text" pInputText id="nameClient" [(ngModel)]="order.nameClient" required autofocus />
+            </div>
+            <div class="p-field">
+                <label for="ubication">Ubicación</label>
+                <input type="text" pInputText id="ubication" [(ngModel)]="order.ubication" required autofocus />
+            </div>
+            <div class="p-field">
+                <label class="p-mb-3">Motorista</label>
+                <input type="text" pInputText id="nameCarrier" [(ngModel)]="order.nameCarrier" required autofocus />
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" id="btn-mmodal1"
+                (click)="hideDialog()"></button>
+            <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" id="btn-mmodal2"
+                (click)="saveOrder()"></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+</div>
