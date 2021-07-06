@@ -26,7 +26,7 @@
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} motoristas"
             [showCurrentPageReport]="true">
             <ng-template pTemplate="header">
-                <tr>
+                <tr class="d-inline-flex">
                     <th style="width: 3rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
@@ -50,7 +50,6 @@
                     </th>
                     <th pSortableColumn="status">Estado<p-sortIcon field="status"></p-sortIcon>
                     </th>
-                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-carrier>

@@ -3,7 +3,7 @@ import { Component, OnInit} from '@angular/core';
 @Component({
   selector: 'app-login',
   template: `<app-box-options *ngIf="!optSelected" (evento)="getOption($event)"></app-box-options>
-            <app-productos *ngIf="optSelected"></app-productos>
+            <app-ordenes *ngIf="optSelected"></app-ordenes>
             `
 })
 export class LoginComponent implements OnInit {
