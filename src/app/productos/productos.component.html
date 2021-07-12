@@ -30,18 +30,12 @@
                     <th style="width: 3rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="name">Nombre<p-sortIcon field="name"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="description">Descripción <p-sortIcon field="description"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="price">Precio<p-sortIcon field="price"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="quantity">Existencia<p-sortIcon field="quantity"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="image">Imagen<p-sortIcon field="image"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="company">Empresa <p-sortIcon field="company"></p-sortIcon>
-                    </th>
+                    <th pSortableColumn="name">Nombre</th>
+                    <th pSortableColumn="description">Descripción</th>
+                    <th pSortableColumn="price">Precio</th>
+                    <th pSortableColumn="quantity">Existencia</th>
+                    <th pSortableColumn="image">Imagen</th>
+                    <th pSortableColumn="company">Empresa</th>
                     <th></th>
                 </tr>
             </ng-template>
@@ -52,9 +46,9 @@
                     </td>
                     <td>{{product.name}}</td>
                     <td>{{product.description}}</td>
-                    <td>{{product.price | currency:'L. '}}</td>
+                    <td>{{product.price | currency:'Lps. '}}</td>
                     <td>{{product.quantity}}</td>
-                    <td><img [src]="'../../assets/img/' + product.image" [alt]="product.name" width="100"
+                    <td><img [src]="'../../assets/productos/' + product.image" [alt]="product.name" width="100"
                             class="p-shadow-4" />
                     </td>
                     <td>{{product.company}}</td>
@@ -79,7 +73,7 @@
     <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Detalle de Producto" [modal]="true"
         styleClass="p-fluid" id="admim-modal">
         <ng-template pTemplate="content">
-            <img [src]="'../assets/img/' + product.image" [alt]="product.image"
+            <img [src]="'../assets/productos/' + product.image" [alt]="product.image"
                 class="product-image" *ngIf="product.image">
             <div class="p-field">
                 <label for="name">Nombre</label>

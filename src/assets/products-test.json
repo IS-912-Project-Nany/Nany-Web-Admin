@@ -2,66 +2,57 @@
 	"data": [
 		{
 			"id": "132100",
-			"name": "Bamboo Watch",
-			"description": "Product Description",
-			"price": 65,
-			"image": "Logo-Nany.png",
-			"quantity": 24,
-			"company": "Accesorios"
+			"name": "Combo Wendy's",
+			"description": "Descripcion producto",
+			"price": 165,
+			"image": "combo-wendys.png",
+			"quantity": 200,
+			"company": "Wendy's"
 		},
 		{
 			"id": "102130",
-			"name": "Bamboo Watch",
-			"description": "Product Description",
-			"price": 65,
-			"image": "Logo-Nany.png",
-			"quantity": 24,
-			"company": "Accesorios"
+			"name": "Combo Pizza Hut",
+			"description": "Descripcion producto",
+			"price": 125,
+			"image": "combo-pizzahut.jpg",
+			"quantity": 120,
+			"company": "Pizza Hut"
 		},
 		{
 			"id": "1230",
-			"name": "Bamboo Watch",
-			"description": "Product Description",
-			"price": 65,
-			"image": "Logo-Nany.png",
-			"quantity": 24,
-			"company": "Accesorios"
+			"name": "Coca Cola 2L",
+			"description": "Descripcion producto",
+			"price": 100,
+			"image": "paquete-cocacola.jpg",
+			"quantity": 500,
+			"company": "Coca Cola"
 		},
 		{
-			"id": "10213",
-			"name": "Bamboo Watch",
-			"description": "Product Description",
-			"price": 65,
-			"image": "Logo-Nany.png",
-			"quantity": 24,
-			"company": "Accesorios"
+			"id": "132100",
+			"name": "Combo Wendy's",
+			"description": "Descripcion producto",
+			"price": 165,
+			"image": "combo-wendys.png",
+			"quantity": 200,
+			"company": "Wendy's"
 		},
 		{
-			"id": "104200",
-			"name": "Bamboo Watch",
-			"description": "Product Description",
-			"price": 65,
-			"image": "Logo-Nany.png",
-			"quantity": 24,
-			"company": "Accesorios"
+			"id": "102130",
+			"name": "Combo Pizza Hut",
+			"description": "Descripcion producto",
+			"price": 125,
+			"image": "combo-pizzahut.jpg",
+			"quantity": 120,
+			"company": "Pizza Hut"
 		},
 		{
-			"id": "100",
-			"name": "Bamboo Watch",
-			"description": "Product Description",
-			"price": 65,
-			"image": "Logo-Nany.png",
-			"quantity": 24,
-			"company": "Accesorios"
-		},
-		{
-			"id": "1020",
-			"name": "Bamboo Watch",
-			"description": "Product Description",
-			"price": 65,
-			"image": "Logo-Nany.png",
-			"quantity": 24,
-			"company": "Accesorios"
+			"id": "1230",
+			"name": "Coca Cola 2L",
+			"description": "Descripcion producto",
+			"price": 100,
+			"image": "paquete-cocacola.jpg",
+			"quantity": 500,
+			"company": "Coca Cola"
 		}
 	]
 }
