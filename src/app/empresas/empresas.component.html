@@ -30,22 +30,15 @@
                     <th style="width: 3rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="name">Nombre<p-sortIcon field="name"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="description">Descripción <p-sortIcon field="description"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="resume">Resumen <p-sortIcon field="resume"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="logo">Logo <p-sortIcon field="logo"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="schedule">Horario<p-sortIcon field="schedule"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="ubication">Ubicación<p-sortIcon field="ubication"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="qualification">Calificación<p-sortIcon field="qualification"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="banner">Banner <p-sortIcon field="banner"></p-sortIcon>
-                    </th>
+                    <th pSortableColumn="name">Nombre</th>
+                    <th pSortableColumn="description">Descripción</th>
+                    <th pSortableColumn="resume">Resumen</th>
+                    <th pSortableColumn="logo">Logo</th>
+                    <th pSortableColumn="schedule">Horario</th>
+                    <th pSortableColumn="ubication">Ubicación</th>
+                    <th pSortableColumn="qualification">Calificación</th>
+                    <th pSortableColumn="banner">Banner</th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-company>
@@ -56,13 +49,13 @@
                     <td>{{company.name}}</td>
                     <td>{{company.description}}</td>
                     <td>{{company.resume}}</td>
-                    <td><img [src]="'../../assets/img/' + company.logo" [alt]="company.name" width="100"
+                    <td><img [src]="'../../assets/empresas/' + company.logo" [alt]="company.name" width="90"
                         class="p-shadow-4" />
                     </td>
                     <td>{{company.schedule}}</td>
                     <td>{{company.ubication}}</td>
                     <td>{{company.qualification}}</td>
-                    <td><img [src]="'../../assets/img/' + company.banner" [alt]="company.name" width="100"
+                    <td><img [src]="'../../assets/empresas/' + company.banner" [alt]="company.name" width="100"
                         class="p-shadow-4" />
                 </td>
                     <td>
@@ -86,8 +79,8 @@
     <p-dialog [(visible)]="companyDialog" [style]="{width: '450px'}" header="Detalle de Empresa" [modal]="true"
         styleClass="p-fluid" id="admim-modal">
         <ng-template pTemplate="content">
-            <img [src]="'../assets/img/' + company.logo" [alt]="company.logo"
-                class="company-logo" *ngIf="company.logo">
+            <img [src]="'../assets/empresas/' + company.banner" [alt]="company.banner"
+                class="company-banner" *ngIf="company.banner" width="100%">
             <div class="p-field">
                 <label for="name">Nombre</label>
                 <input type="text" pInputText id="name" [(ngModel)]="company.name" required autofocus />

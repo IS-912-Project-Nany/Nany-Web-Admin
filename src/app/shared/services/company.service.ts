@@ -9,7 +9,7 @@ export class CompanyService {
 
   getCompanies() {
     return this.http
-      .get<any>('')
+      .get<any>('../../assets/companies-test.json')
       .toPromise()
       .then((res) => <Company[]>res.data)
       .then((data) => {

@@ -1,0 +1,70 @@
+{
+	"data": [
+		{
+			"id": "132100",
+			"name": "Pizza Hut",
+			"description": "Descripcion empresa",
+			"resume": "Resumen empresa",
+			"logo": "pizza-hut.jpg",
+			"schedule": "08:00 AM-07:00 PM",
+			"ubication": "Blv. Morazan",
+            "qualification": 5,
+            "banner": "banner-pizza.png"
+		},
+		{
+			"id": "102130",
+			"name": "Wendy's",
+            "description": "Descripcion empresa",
+			"resume": "Resumen empresa",
+			"logo": "logo-wendys.jpg",
+            "schedule": "08:00 AM-07:00 PM",
+			"ubication": "Blv. Morazan",
+            "qualification": 4,
+            "banner": "banner-wendys.jpg"
+		},
+		{
+			"id": "1230",
+			"name": "Coca Cola",
+            "description": "Descripcion empresa",
+			"resume": "Resumen empresa",
+			"logo": "Coca-Cola-Logo.png",
+            "schedule": "08:00 AM-07:00 PM",
+			"ubication": "Blv. Morazan",
+            "qualification": 5,
+            "banner": "banner-cocacola.jpg"
+		},
+        {
+			"id": "132100",
+			"name": "Pizza Hut",
+			"description": "Descripcion empresa",
+			"resume": "Resumen empresa",
+			"logo": "pizza-hut.jpg",
+			"schedule": "08:00 AM-07:00 PM",
+			"ubication": "Blv. Morazan",
+            "qualification": 5,
+            "banner": "banner-pizza.png"
+		},
+		{
+			"id": "102130",
+			"name": "Wendy's",
+            "description": "Descripcion empresa",
+			"resume": "Resumen empresa",
+			"logo": "logo-wendys.jpg",
+            "schedule": "08:00 AM-07:00 PM",
+			"ubication": "Blv. Morazan",
+            "qualification": 4,
+            "banner": "banner-wendys.jpg"
+		},
+		{
+			"id": "1230",
+			"name": "Coca Cola",
+            "description": "Descripcion empresa",
+			"resume": "Resumen empresa",
+			"logo": "Coca-Cola-Logo.png",
+            "schedule": "08:00 AM-07:00 PM",
+			"ubication": "Blv. Morazan",
+            "qualification": 5,
+            "banner": "banner-cocacola.jpg"
+		}
+	]
+}
