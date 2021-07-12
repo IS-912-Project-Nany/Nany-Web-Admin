@@ -26,30 +26,21 @@
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} motoristas"
             [showCurrentPageReport]="true">
             <ng-template pTemplate="header">
-                <tr class="d-inline-flex">
+                <tr>
                     <th style="width: 3rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="name">Nombre<p-sortIcon field="name"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="lastname">Apellido<p-sortIcon field="lastname"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="city">Ciudad<p-sortIcon field="city"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="gender">Género<p-sortIcon field="gender"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="birthday">Nacimiento<p-sortIcon field="birthday"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="motorcycle">Motocicleta<p-sortIcon field="motorcycle"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="license">Licencia<p-sortIcon field="license"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="internet">Datos móviles<p-sortIcon field="internet"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="experience">Experiencia<p-sortIcon field="experience"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="status">Estado<p-sortIcon field="status"></p-sortIcon>
-                    </th>
+                    <th pSortableColumn="name">Nombre</th>
+                    <th pSortableColumn="lastname">Apellido</th>
+                    <th pSortableColumn="city">Ciudad</th>
+                    <th pSortableColumn="gender">Género</th>
+                    <th pSortableColumn="birthday">Nacimiento</th>
+                    <th pSortableColumn="motorcycle">Moto-cicleta</th>
+                    <th pSortableColumn="license">Licencia</th>
+                    <th pSortableColumn="internet">Datos móviles</th>
+                    <th pSortableColumn="experience">Experiencia</th>
+                    <th pSortableColumn="status">Estado</th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-carrier>

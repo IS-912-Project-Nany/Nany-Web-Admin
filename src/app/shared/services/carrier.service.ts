@@ -9,7 +9,7 @@ export class CarrierService {
 
   getCarriers() {
     return this.http
-      .get<any>('')
+      .get<any>('../../assets/carrier-test.json')
       .toPromise()
       .then((res) => <Carrier[]>res.data)
       .then((data) => {
