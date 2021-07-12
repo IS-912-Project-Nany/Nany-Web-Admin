@@ -30,20 +30,14 @@
                     <th style="width: 3rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="numberOrder">No. Orden<p-sortIcon field="numberOrder"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="nameProduct">Producto<p-sortIcon field="nameProduct"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="totalOrder">Total pedido<p-sortIcon field="totalOrder"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="date">Fecha<p-sortIcon field="date"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="nameClient">Cliente<p-sortIcon field="nameClient"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="ubication">Ubicación<p-sortIcon field="ubication"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="nameCarrier">Motorista<p-sortIcon field="nameCarrier"></p-sortIcon>
-                    </th>
+                    <th pSortableColumn="numberOrder">No. Orden</th>
+                    <th pSortableColumn="nameProduct">Producto</th>
+                    <th pSortableColumn="totalOrder">Total pedido</th>
+                    <th pSortableColumn="date">Fecha</th>
+                    <th pSortableColumn="nameClient">Cliente</th>
+                    <th pSortableColumn="ubication">Ubicación</th>
+                    <th pSortableColumn="nameCarrier">Motorista</th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-order>
@@ -53,7 +47,7 @@
                     </td>
                     <td>{{order.numberOrder}}</td>
                     <td>{{order.nameProduct}}</td>
-                    <td>{{order.totalOrder}}</td>
+                    <td>{{order.totalOrder | currency:'Lps. '}}</td>
                     <td>{{order.date}}</td>
                     <td>{{order.nameClient}}</td>
                     <td>{{order.ubication}}</td>

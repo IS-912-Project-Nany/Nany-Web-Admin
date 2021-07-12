@@ -9,7 +9,7 @@ export class OrderService {
 
   getOrders() {
     return this.http
-      .get<any>('')
+      .get<any>('../../assets/orders-test.json')
       .toPromise()
       .then((res) => <Order[]>res.data)
       .then((data) => {
