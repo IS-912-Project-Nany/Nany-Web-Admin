@@ -3,15 +3,14 @@ import { Component, OnInit} from '@angular/core';
 @Component({
   selector: 'app-login',
   template: `<app-box-options *ngIf="!optSelected" (evento)="getOption($event)"></app-box-options>
-            <app-ordenes *ngIf="optSelected"></app-ordenes>
+            <app-motoristas *ngIf="optSelected"></app-motoristas>
             `
 })
 export class LoginComponent implements OnInit {
   optSelected: Boolean = false;
   constructor() {
-    console.log(this.optSelected);
+    
   }
-
   ngOnInit(): void {
   }
   getOption(e) {
@@ -19,6 +18,4 @@ export class LoginComponent implements OnInit {
     this.optSelected = e;
     document.getElementById("body").style.backgroundColor = '#FFE9C7';
   }
-
-
 }

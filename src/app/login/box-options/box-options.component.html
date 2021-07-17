@@ -1,16 +1,31 @@
 <div class="container" id="login-container">
   <div class="row">
     <img class="img-login" src="../../../assets/img/Logo-Nany-trans-1.png" alt="Nany">
-    <div *ngIf="!isLogged">
+    <form class="needs-validation" novalidate [formGroup]="formLogin" *ngIf="!isLogged">
       <h4>Inicio de sesión para administración</h4>
       <div class="content-login">
-        <h5>Correo Electrónico</h5>
-        <input class="form-control" type="email" placeholder="@email">
-        <h5>Contraseña</h5>
-        <input type="password" class="form-control">
-        <button type="button" (click)="login()" class="btn btn-login"> Iniciar Sesión</button>
+        <div>
+          <h5>Correo Electrónico</h5>
+          <input class="form-control" type="email" placeholder="@email"
+            [ngClass]="{'is-invalid': email.invalid && (email.dirty || email.touched), 'is-valid': email.valid}"
+            formControlName="email" required>
+          <div class="invalid-feedback login-feedback" *ngIf="email.errors">
+            <span *ngIf="email.errors.required">Este campo no puede quedar vacío</span>
+          </div>
+        </div>
+        <div class="mt-5">
+          <h5>Contraseña</h5>
+          <input type="password" class="form-control" autocomplete="on"
+            [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched), 'is-valid': password.valid}"
+            formControlName="password" required>
+          <div class="invalid-feedback login-feedback" *ngIf="password.errors">
+            <span *ngIf="password.errors.required">Este campo no puede quedar vacío</span>
+            <span *ngIf="password.errors.pattern">Mínimo 8 caracteres, incluyendo al menos una mayúscula y número.</span>
+          </div>
+        </div>
+        <button type="button" [disabled]="formLogin.invalid" (click)="login()" class="btn btn-login mt-5"> Iniciar Sesión</button>
       </div>
-    </div>
+    </form>
     <div *ngIf="isLogged">
       <div class="content-login" style="background-color: #FFE9C7">
         <h4 class="mt-0 mb-5">¿Qué deseas administrar hoy?</h4>

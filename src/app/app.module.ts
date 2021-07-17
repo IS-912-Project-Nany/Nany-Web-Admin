@@ -8,7 +8,7 @@ import { CompanyService } from './shared/services/company.service';
 import { CarrierService } from './shared/services/carrier.service';
 import { OrderService } from './shared/services/order.service';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -44,31 +44,32 @@ import { MotoristasComponent } from './motoristas/motoristas.component';
 import { OrdenesComponent } from './ordenes/ordenes.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     ProductosComponent,
     LoginComponent,
     BoxOptionsComponent,
-      NavbarComponent,
-      EmpresasComponent,
-      MotoristasComponent,
-      OrdenesComponent
-   ],
+    NavbarComponent,
+    EmpresasComponent,
+    MotoristasComponent,
+    OrdenesComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     ToastModule,
     MessageModule,
     TabMenuModule,
     TableModule,
     CalendarModule,
-		SliderModule,
-		DialogModule,
-		MultiSelectModule,
-		ContextMenuModule,
-		DropdownModule,
-		ButtonModule,
+    SliderModule,
+    DialogModule,
+    MultiSelectModule,
+    ContextMenuModule,
+    DropdownModule,
+    ButtonModule,
     InputTextModule,
     ProgressBarModule,
     HttpClientModule,
@@ -80,12 +81,16 @@ import { OrdenesComponent } from './ordenes/ordenes.component';
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
-    RouterModule.forRoot([
-      {path:'',component: AppComponent}
-		])
+    RouterModule.forRoot([{ path: '', component: AppComponent }]),
   ],
-  providers: [ProductService, CompanyService, CarrierService, OrderService, MessageService, ConfirmationService],
-  bootstrap: [AppComponent]
+  providers: [
+    ProductService,
+    CompanyService,
+    CarrierService,
+    OrderService,
+    MessageService,
+    ConfirmationService,
+  ],
+  bootstrap: [AppComponent],
 })
-
 export class AppModule {}
