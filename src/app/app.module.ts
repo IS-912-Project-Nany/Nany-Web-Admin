@@ -37,23 +37,23 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 
 import { ProductosComponent } from './productos/productos.component';
 import { LoginComponent } from './login/login.component';
-import { BoxOptionsComponent } from './login/box-options/box-options.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { EmpresasComponent } from './empresas/empresas.component';
 import { MotoristasComponent } from './motoristas/motoristas.component';
 import { OrdenesComponent } from './ordenes/ordenes.component';
+import { CategoriasComponent } from './categorias/categorias.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductosComponent,
     LoginComponent,
-    BoxOptionsComponent,
     NavbarComponent,
     EmpresasComponent,
     MotoristasComponent,
     OrdenesComponent,
-  ],
+    CategoriasComponent
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -77,6 +77,7 @@ import { OrdenesComponent } from './ordenes/ordenes.component';
     ToolbarModule,
     RatingModule,
     FormsModule,
+    ReactiveFormsModule,
     RadioButtonModule,
     InputNumberModule,
     ConfirmDialogModule,
