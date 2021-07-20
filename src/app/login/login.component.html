@@ -1,0 +1,30 @@
+<div class="container" id="login-container">
+    <div class="row">
+        <img class="img-login" src="../../../assets/img/Logo-Nany-trans-1.png" alt="Nany">
+        <h4>Inicio de sesión para administración</h4>
+        <form class="needs-validation" novalidate [formGroup]="formLogin">
+            <div class="content-login">
+                <div>
+                    <h5>Correo Electrónico</h5>
+                    <input class="form-control" type="email" placeholder="ejemplo@gmail.com" formControlName="email"
+                    [ngClass]="{'is-invalid': email.invalid && (email.dirty || email.touched), 'is-valid': email.valid}" required>
+                    <div class="invalid-feedback login-feedback" *ngIf="email.errors">
+                        <span *ngIf="email.errors.pattern && email.errors.pattern != null">Correo Inválido</span>
+                        <span *ngIf="email.errors.required">Este campo no puede quedar vacío</span>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <h5>Contraseña</h5>
+                    <input type="password" class="form-control" name="password" autocomplete="on"
+                    [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched), 'is-valid': password.valid}"
+                    formControlName="password" required>
+                    <div class="invalid-feedback login-feedback" *ngIf="password.errors">
+                        <span *ngIf="password.errors.required">Este campo no puede quedar vacío</span>
+                        <span *ngIf="password.errors.minlength">Mínimo 8 caracteres</span>
+                    </div>
+                </div>
+              <button type="button" routerLink="/Categorias" class="btn btn-login mt-5"> Iniciar Sesión</button>
+            </div>
+        </form>
+    </div>
+</div>

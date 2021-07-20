@@ -1,21 +1,32 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  template: `<app-box-options *ngIf="!optSelected" (evento)="getOption($event)"></app-box-options>
-            <app-motoristas *ngIf="optSelected"></app-motoristas>
-            `
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-  optSelected: Boolean = false;
-  constructor() {
-    
-  }
+  formLogin = new FormGroup({
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+      ),
+    ]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+  });
+
+  constructor() { }
+
   ngOnInit(): void {
+    document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
-  getOption(e) {
-    console.log(e);
-    this.optSelected = e;
-    document.getElementById("body").style.backgroundColor = '#FFE9C7';
+
+  get email() {
+    return this.formLogin.get('email');
+  }
+
+  get password() {
+    return this.formLogin.get('password');
   }
 }
