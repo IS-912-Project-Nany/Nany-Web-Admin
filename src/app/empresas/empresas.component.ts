@@ -24,6 +24,7 @@ export class EmpresasComponent {
   company!: Company;
   selectedCompanies: Company[] = [];
   submitted: boolean = false;
+  option: number=0;
 
   constructor(
     private companyService: CompanyService,
@@ -33,6 +34,7 @@ export class EmpresasComponent {
 
   ngOnInit(): void {
     this.companyService.getCompanies().then((data) => (this.companies = data));
+    document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
 
   openNew() {

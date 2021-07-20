@@ -24,6 +24,7 @@ export class OrdenesComponent {
   order!: Order;
   selectedOrders: Order[] = [];
   submitted: boolean = false;
+  option: number=3;
 
   constructor(
     private orderService: OrderService,
@@ -33,6 +34,7 @@ export class OrdenesComponent {
 
   ngOnInit(): void {
     this.orderService.getOrders().then((data) => (this.orders = data));
+    document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
 
   openNew() {

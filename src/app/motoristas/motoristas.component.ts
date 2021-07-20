@@ -24,6 +24,7 @@ export class MotoristasComponent {
   carrier!: Carrier;
   selectedCarriers: Carrier[] = [];
   submitted: boolean = false;
+  option: number=2;
 
   constructor(
     private carrierService: CarrierService,
@@ -33,6 +34,7 @@ export class MotoristasComponent {
 
   ngOnInit(): void {
     this.carrierService.getCarriers().then((data) => (this.carriers = data));
+    document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
 
   openNew() {

@@ -24,6 +24,7 @@ export class ProductosComponent {
   product!: Product;
   selectedProducts: Product[] = [];
   submitted: boolean = false;
+  option: number=1;
 
   constructor(
     private productService: ProductService,
@@ -33,6 +34,7 @@ export class ProductosComponent {
 
   ngOnInit() {
     this.productService.getProducts().then((data) => (this.products = data));
+    document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
 
   openNew() {
