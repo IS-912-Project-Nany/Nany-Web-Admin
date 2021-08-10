@@ -51,13 +51,13 @@
                     <td>{{empresa.nombre}}</td>
                     <td>{{empresa.descripcion}}</td>
                     <td>{{empresa.resumen}}</td>
-                    <td><img [src]="'../../assets/empresas/' + empresa.logo" [alt]="empresa.nombre" width="90"
+                    <td><img [src]="empresa.logo" [alt]="empresa.nombre" width="90"
                             class="p-shadow-4" />
                     </td>
                     <td>{{empresa.horario}}</td>
                     <td>{{empresa.ubicacion}}</td>
                     <td>{{empresa.calificacion}}</td>
-                    <td><img [src]="'../../assets/empresas/' + empresa.banner" [alt]="empresa.nombre" width="100"
+                    <td><img [src]="empresa.banner" [alt]="empresa.nombre" width="100"
                             class="p-shadow-4" />
                     </td>
                     <td>
@@ -81,7 +81,7 @@
     <p-dialog [(visible)]="empresaDialog" [style]="{width: '450px'}" header="Detalle de Empresa" [modal]="true"
         styleClass="p-fluid" id="admim-modal">
         <ng-template pTemplate="content">
-            <img [src]="'../assets/empresas/' + empresa.banner" [alt]="empresa.banner" class="company-banner"
+            <img [src]="empresa.banner" [alt]="empresa.banner" class="company-banner"
                 *ngIf="empresa.banner" width="100%">
             <div class="p-field">
                 <label class="p-mb-3">Categoria</label>
@@ -104,9 +104,13 @@
                     cols="10"></textarea>
             </div>
             <div class="p-field">
-                <label for="logo">Logo</label>
-                <input type="text" pInputText id="logo" [(ngModel)]="empresa.logo" placeholder="Ingrese la URL" required
-                    autofocus />
+                <label class="p-mb-3">Logo</label>
+                <p-fileUpload  customUpload="true" (uploadHandler)="onUpload($event,'logo')"
+                accept="image/*" maxFileSize="10000000">
+                    <ng-template pTemplate="content">
+                        
+                    </ng-template>
+                </p-fileUpload>
             </div>
             <div class="p-field">
                 <label for="schedule">Horario</label>
@@ -122,9 +126,13 @@
                     placeholder="Ingrese un numero del 1 al 5"></p-inputNumber>
             </div>
             <div class="p-field">
-                <label for="banner">Banner</label>
-                <input type="text" pInputText  [(ngModel)]="empresa.banner" placeholder="Ingrese la URL"
-                    required autofocus />
+                <label class="p-mb-3">Banner</label>
+                <p-fileUpload  customUpload="true" (uploadHandler)="onUpload($event,'banner')"
+                accept="image/*" maxFileSize="10000000">
+                    <ng-template pTemplate="content">
+                        
+                    </ng-template>
+                </p-fileUpload>
             </div>
         </ng-template>
 

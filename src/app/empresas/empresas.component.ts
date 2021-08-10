@@ -3,6 +3,7 @@ import { Empresa } from '../shared/model/empresa';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { EmpresasService } from '../services/empresas.service';
+import { UploadService } from '../services/upload.service';
 
 @Component({
   selector: 'app-empresas',
@@ -27,11 +28,14 @@ export class EmpresasComponent {
   empresaDialog: boolean = false;
   submitted: boolean = false;
   option: number = 0;
-  
+  uploadedFiles: any[] = [];
+  formData = new FormData();
+
   constructor(
     private empresasService: EmpresasService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private uploadService: UploadService
   ) {}
 
   ngOnInit(): void {
@@ -179,5 +183,32 @@ saveCompany() {
       }
     }
     return index;
+  }
+
+  onUpload(event,tipo) {
+    for(let file of event.files) {
+      console.log(this.uploadedFiles);
+      this.uploadedFiles.push(file);
+      this.formData.append("imagen", file);
+      this.formData.append("folder", 'empresas')
+      this.uploadService.subirImagen(this.formData).subscribe(
+        result => {
+          if (tipo == 'banner') {
+            this.empresa.banner = result.url;
+            this.messageService.add({severity: 'info', summary: 'Banner Subido'});
+          } else {
+            this.empresa.logo = result.url;
+            this.messageService.add({severity: 'info', summary: 'Logo Subido'});
+          }
+          console.log(result)
+          this.uploadedFiles = [];
+          this.formData.delete("imagen");
+          this.formData.delete("folder"); 
+        },
+        error => {
+         console.log(error);
+        }
+      );
+    }
   }
 }
