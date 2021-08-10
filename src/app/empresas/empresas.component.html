@@ -11,7 +11,7 @@
                 <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="btn-new" (click)="openNew()"></button>
                 <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="btn-delete"
                     (click)="deleteSelectedCompanies()"
-                    [disabled]="!selectedCompanies || !selectedCompanies.length"></button>
+                    [disabled]="!empresaSeleccionada || !empresaSeleccionada.length"></button>
             </ng-template>
             <span class="p-input-icon-left" id="buscar">
                 <i class="pi pi-search"></i>
@@ -20,9 +20,9 @@
             </span>
         </p-toolbar>
 
-        <p-table #dt [value]="companies" [rows]="10" [paginator]="true"
+        <p-table #dt [value]="empresas" [rows]="10" [paginator]="true"
             [globalFilterFields]="['name','country.name','representative.name','status']"
-            [(selection)]="selectedCompanies" [rowHover]="true" dataKey="id"
+            [(selection)]="empresaSeleccionada" [rowHover]="true" dataKey="_id"
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} empresas"
             [showCurrentPageReport]="true">
             <ng-template pTemplate="header">
@@ -30,6 +30,7 @@
                     <th style="width: 3rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
+                    <th pSortableColumn="idCategoria">Categoria</th>
                     <th pSortableColumn="name">Nombre</th>
                     <th pSortableColumn="description">Descripción</th>
                     <th pSortableColumn="resume">Resumen</th>
@@ -41,80 +42,89 @@
                     <th></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-company>
+            <ng-template pTemplate="body" let-empresa>
                 <tr>
                     <td>
-                        <p-tableCheckbox [value]="company"></p-tableCheckbox>
+                        <p-tableCheckbox [value]="empresa"></p-tableCheckbox>
                     </td>
-                    <td>{{company.name}}</td>
-                    <td>{{company.description}}</td>
-                    <td>{{company.resume}}</td>
-                    <td><img [src]="'../../assets/empresas/' + company.logo" [alt]="company.name" width="90"
-                        class="p-shadow-4" />
+                    <td>{{empresa.nombreCategoria}}</td>
+                    <td>{{empresa.nombre}}</td>
+                    <td>{{empresa.descripcion}}</td>
+                    <td>{{empresa.resumen}}</td>
+                    <td><img [src]="'../../assets/empresas/' + empresa.logo" [alt]="empresa.nombre" width="90"
+                            class="p-shadow-4" />
                     </td>
-                    <td>{{company.schedule}}</td>
-                    <td>{{company.ubication}}</td>
-                    <td>{{company.qualification}}</td>
-                    <td><img [src]="'../../assets/empresas/' + company.banner" [alt]="company.name" width="100"
-                        class="p-shadow-4" />
-                </td>
+                    <td>{{empresa.horario}}</td>
+                    <td>{{empresa.ubicacion}}</td>
+                    <td>{{empresa.calificacion}}</td>
+                    <td><img [src]="'../../assets/empresas/' + empresa.banner" [alt]="empresa.nombre" width="100"
+                            class="p-shadow-4" />
+                    </td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                            (click)="editCompany(company)"></button>
+                            (click)="editCompany(empresa)"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                            (click)="deleteCompany(company)"></button>
+                            (click)="deleteCompany(empresa)"></button>
                     </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
                 <div class="p-d-flex p-ai-center p-jc-between">
-                    En total hay {{companies ? companies.length : 0 }} empresas.
+                    En total hay {{empresas ? empresas.length : 0 }} empresas.
                 </div>
             </ng-template>
         </p-table>
     </div>
 
-    <!--Modal Create Company-->
+    <!--Modal Crear Empresa-->
 
-    <p-dialog [(visible)]="companyDialog" [style]="{width: '450px'}" header="Detalle de Empresa" [modal]="true"
+    <p-dialog [(visible)]="empresaDialog" [style]="{width: '450px'}" header="Detalle de Empresa" [modal]="true"
         styleClass="p-fluid" id="admim-modal">
         <ng-template pTemplate="content">
-            <img [src]="'../assets/empresas/' + company.banner" [alt]="company.banner"
-                class="company-banner" *ngIf="company.banner" width="100%">
+            <img [src]="'../assets/empresas/' + empresa.banner" [alt]="empresa.banner" class="company-banner"
+                *ngIf="empresa.banner" width="100%">
+            <div class="p-field">
+                <label class="p-mb-3">Categoria</label>
+                <p-dropdown [options]="categorias"  name="categoriaSeleccionada" [(ngModel)]="categoriaSeleccionada" optionLabel="nombre">
+                </p-dropdown>
+            </div>
             <div class="p-field">
                 <label for="name">Nombre</label>
-                <input type="text" pInputText id="name" [(ngModel)]="company.name" required autofocus />
-                <small class="p-error" *ngIf="submitted && !company.name">Name is required.</small>
+                <input type="text" pInputText id="name" [(ngModel)]="empresa.nombre" required autofocus />
+                <small class="p-error" *ngIf="submitted && !empresa.nombre">Name is required.</small>
             </div>
             <div class="p-field">
                 <label class="p-mb-3">Descripción</label>
-                <textarea id="description" pInputTextarea [(ngModel)]="company.description" required rows="3"
+                <textarea id="description" pInputTextarea [(ngModel)]="empresa.descripcion" required rows="3"
                     cols="20"></textarea>
             </div>
             <div class="p-field">
                 <label for="resume">Resumen</label>
-                <textarea id="resume" pInputTextarea [(ngModel)]="company.resume" required rows="2"
-                cols="10"></textarea>
+                <textarea id="resume" pInputTextarea [(ngModel)]="empresa.resumen" required rows="2"
+                    cols="10"></textarea>
             </div>
             <div class="p-field">
                 <label for="logo">Logo</label>
-                <input type="text" pInputText id="logo" [(ngModel)]="company.logo" placeholder="Ingrese la URL" required autofocus />
+                <input type="text" pInputText id="logo" [(ngModel)]="empresa.logo" placeholder="Ingrese la URL" required
+                    autofocus />
             </div>
             <div class="p-field">
                 <label for="schedule">Horario</label>
-                <input type="text" pInputText id="schedule" [(ngModel)]="company.schedule" required autofocus />
+                <input type="text" pInputText id="schedule" [(ngModel)]="empresa.horario" required autofocus />
             </div>
             <div class="p-field">
                 <label for="ubication">Ubicación</label>
-                <input type="text" pInputText id="ubication" [(ngModel)]="company.ubication" required autofocus />
+                <input type="text" pInputText id="ubication" [(ngModel)]="empresa.ubicacion" required autofocus />
             </div>
             <div class="p-field">
                 <label class="p-mb-3">Calificación</label>
-                <p-inputNumber id="qualification" [(ngModel)]="company.qualification" placeholder="Ingrese un numero del 1 al 5"></p-inputNumber>
+                <p-inputNumber id="qualification" [(ngModel)]="empresa.calificacion"
+                    placeholder="Ingrese un numero del 1 al 5"></p-inputNumber>
             </div>
             <div class="p-field">
                 <label for="banner">Banner</label>
-                <input type="text" pInputText id="banner" [(ngModel)]="company.banner" placeholder="Ingrese la URL" required autofocus />
+                <input type="text" pInputText  [(ngModel)]="empresa.banner" placeholder="Ingrese la URL"
+                    required autofocus />
             </div>
         </ng-template>
 

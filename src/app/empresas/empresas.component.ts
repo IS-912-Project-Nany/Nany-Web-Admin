@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Company } from '../shared/model/company';
-import { CompanyService } from '../shared/services/company.service';
+import { Component } from '@angular/core';
+import { Empresa } from '../shared/model/empresa';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { EmpresasService } from '../services/empresas.service';
 
 @Component({
   selector: 'app-empresas',
@@ -16,131 +16,168 @@ import { MessageService } from 'primeng/api';
       }
     `,
   ],
-  styleUrls: ['./empresas.component.sass']
+  styleUrls: ['./empresas.component.sass'],
 })
 export class EmpresasComponent {
-  companyDialog: boolean = false;
-  companies: Company[] = [];
-  company!: Company;
-  selectedCompanies: Company[] = [];
+  categorias: any = [];
+  categoriaSeleccionada: any;
+  empresas: Empresa[] = [];
+  empresaSeleccionada: Empresa[] = [];
+  empresa!: Empresa;
+  empresaDialog: boolean = false;
   submitted: boolean = false;
-  option: number=0;
-
+  option: number = 0;
+  
   constructor(
-    private companyService: CompanyService,
+    private empresasService: EmpresasService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.companyService.getCompanies().then((data) => (this.companies = data));
+    this.empresasService.obtenerCategorias().subscribe(
+      (result) => {
+        this.categorias = result;
+        this.categorias.forEach(categoria => {
+          categoria.empresas.forEach(empresa => {
+            empresa.idCategoria = categoria._id;
+            empresa.nombreCategoria = categoria.nombre;
+            this.empresas.push(empresa);
+          });
+        });
+        console.log(result);
+        console.log(this.empresas);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
 
   openNew() {
-    this.company = {};
+    this.empresa = {};
     this.submitted = false;
-    this.companyDialog = true;
+    this.empresaDialog = true;
   }
 
-  deleteSelectedCompanies() {
+   deleteSelectedCompanies() {
+     this.confirmationService.confirm({
+       message: '¿Estas seguro que quieres eliminar estas empresa?',
+       header: 'Confirmar',
+       icon: 'pi pi-exclamation-triangle',
+       accept: () => {
+         this.empresas = this.empresas.filter(
+           (val) => !this.empresaSeleccionada.includes(val)
+         );
+         
+         for (let i = 0; i < this.empresaSeleccionada.length; i++) {
+          this.empresasService.borrarEmpresa(this.empresaSeleccionada[i].idCategoria, this.empresaSeleccionada[i]._id).subscribe(
+            result => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Exitoso',
+                detail: 'Empresa Eliminada',
+                life: 3000,
+              });
+            },
+            error => {
+              console.log(error);
+            }
+          );
+         }
+       },
+     });
+   }
+
+  editCompany(empresa: Empresa) {
+    this.empresa = { ...empresa };
+    this.empresaDialog = true;
+  }
+
+  deleteCompany(empresa: Empresa) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected companies?',
-      header: 'Confirm',
+      message: '¿Estas seguro que quieres eliminar esta empresa ' + empresa.nombre + '?',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.companies = this.companies.filter(
-          (val) => !this.selectedCompanies.includes(val)
+        this.empresasService.borrarEmpresa(empresa.idCategoria, empresa._id).subscribe(
+          result => {
+            this.empresas = this.empresas.filter((val) => val._id !== empresa._id);
+            this.empresa = {};
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exitoso',
+              detail: 'Empresa eliminada',
+              life: 3000,
+            });
+          },
+          error => {
+            console.log(error);
+          }
         );
-        this.selectedCompanies = [];
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Companies Deleted',
-          life: 3000,
-        });
-      },
-    });
-  }
-
-  editCompany(company: Company) {
-    this.company = { ...company };
-    this.companyDialog = true;
-  }
-
-  deleteCompany(company: Company) {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + company.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.companies = this.companies.filter((val) => val.id !== company.id);
-        this.company = {};
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Company Deleted',
-          life: 3000,
-        });
       },
     });
   }
 
   hideDialog() {
-    this.companyDialog = false;
+    this.empresaDialog = false;
     this.submitted = false;
   }
 
-  saveCompany() {
-    this.submitted = true;
+saveCompany() {
+  this.submitted = true;
 
-    if (this.company.name?.trim()) {
-      if (this.company.id) {
-        this.companies[this.findIndexById(this.company.id)] = this.company;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Company Updated',
-          life: 3000,
-        });
-      } else {
-        this.company.id = this.createId();
-        this.company.logo = 'company-placeholder.svg';
-        this.companies.push(this.company);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Company Created',
-          life: 3000,
-        });
-      }
-
-      this.companies = [...this.companies];
-      this.companyDialog = false;
-      this.company = {};
+  if (this.empresa.nombre?.trim()) {
+    if (this.empresa._id) {
+      this.empresas[this.findIndexById(this.empresa._id)] = this.empresa;
+      this.empresasService.actualizarEmpresa(this.empresa.idCategoria, this.empresa._id, this.empresa).subscribe(
+        result => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Exitoso',
+            detail: 'Empresa Modificada',
+            life: 3000,
+          });
+        },
+        error => {
+          console.log(error);
+        }
+      );
+     
+    } else {
+      let empresaAgregar = this.empresa;
+      this.empresasService.crearEmpresa(this.categoriaSeleccionada._id, this.empresa).subscribe(
+        result => {
+          console.log(result);
+          this.empresas.push(empresaAgregar);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Exitoso',
+            detail: 'Empresa creada',
+            life: 3000,
+          });
+        },
+        error => {
+          console.log(error);
+        }
+      )
     }
+
+    this.empresas = [...this.empresas];
+    this.empresaDialog = false;
+    this.empresa = {};
   }
+}
 
   findIndexById(id: string): number {
     let index = -1;
-    for (let i = 0; i < this.companies.length; i++) {
-      if (this.companies[i].id === id) {
+    for (let i = 0; i < this.empresas.length; i++) {
+      if (this.empresas[i]._id === id) {
         index = i;
         break;
       }
     }
-
     return index;
   }
-
-  createId(): string {
-    let id = '';
-    var chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
-  }
-
 }

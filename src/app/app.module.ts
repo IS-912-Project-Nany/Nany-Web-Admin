@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductService } from '../app/shared/services/product.service';
-import { CompanyService } from './shared/services/company.service';
 import { CarrierService } from './shared/services/carrier.service';
 import { OrderService } from './shared/services/order.service';
 
@@ -86,7 +85,6 @@ import { CategoriasComponent } from './categorias/categorias.component';
   ],
   providers: [
     ProductService,
-    CompanyService,
     CarrierService,
     OrderService,
     MessageService,
