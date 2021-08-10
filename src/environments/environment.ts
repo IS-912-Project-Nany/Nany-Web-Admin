@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  ROOT_API: ''
+  ROOT_API: 'https://nany-rest-api.herokuapp.com'
 };
 
 /*

@@ -51,7 +51,7 @@
                     <td>{{producto.precio | currency:'Lps. '}}</td>
                     <td>{{producto.isv | currency:'Lps. '}}</td>
                     <td>{{producto.existencia}}</td>
-                    <td><img [src]="'../../assets/productos/' + producto.imagen" [alt]="producto.nombre" width="100"
+                    <td><img [src]="producto.imagen" [alt]="producto.nombre" width="100"
                             class="p-shadow-4" />
                     </td>
                     <td>{{producto.nombreEmpresa}}</td>
@@ -77,7 +77,7 @@
     <p-dialog [(visible)]="productosDialog" [style]="{width: '450px'}" header="Detalle de Producto" [modal]="true"
         styleClass="p-fluid" id="admim-modal">
         <ng-template pTemplate="content">
-            <img [src]="'../assets/productos/' + producto.imagen" [alt]="producto.imagen"
+            <img [src]="producto.imagen" [alt]="producto.imagen"
                 class="product-image" *ngIf="producto.imagen">
             <div class="p-field">
                 <label class="p-mb-3">Categoria</label>
@@ -115,7 +115,12 @@
             </div>
             <div class="p-field">
                 <label class="p-mb-3">Imagen</label>
-                <input pInputText id="imagen" [(ngModel)]="producto.imagen" required autofocus>
+                <p-fileUpload  customUpload="true" (uploadHandler)="onUpload($event)"
+                accept="image/*" maxFileSize="10000000">
+                    <ng-template pTemplate="content">
+                        
+                    </ng-template>
+                </p-fileUpload>
             </div>
               <!--<p-dropdown [(ngModel)]="product.comapny" inputId="company" [options]="statuses"
                     placeholder="Select">

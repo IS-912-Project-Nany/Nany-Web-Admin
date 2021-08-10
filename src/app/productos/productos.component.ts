@@ -4,6 +4,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ProductosService } from '../services/productos.service';
 import { EmpresasService } from '../services/empresas.service';
+import { UploadService } from '../services/upload.service';
 
 @Component({
   selector: 'app-productos',
@@ -30,12 +31,15 @@ export class ProductosComponent {
   productoSeleccionado: Producto[] = [];
   submitted: boolean = false;
   option: number = 1;
+  uploadedFiles: any[] = [];
+  formData = new FormData();
 
   constructor(
     private productosService: ProductosService,
     private empresasService: EmpresasService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private uploadService: UploadService
   ) {}
 
   ngOnInit() {
@@ -198,4 +202,22 @@ export class ProductosComponent {
     }
     return index;
   }
+
+  onUpload(event) {
+    let file: File = event.files[0];
+    console.log(file);
+    this.uploadedFiles.push(file);
+    this.formData.append("imagen", file);
+    this.formData.append("folder", 'usuarios');
+
+    this.uploadService.subirImagen(this.formData).subscribe(
+      result => {
+        console.log(result);
+        this.producto.imagen = result.url;
+        this.messageService.add({severity: 'info', summary: 'Imagen Subida'});
+      },
+      error => {
+        console.log(error);
+      }
+    );}
 }
