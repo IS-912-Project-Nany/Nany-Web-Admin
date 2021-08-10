@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Product } from '../shared/model/product';
-import { ProductService } from '../shared/services/product.service';
+import { Component } from '@angular/core';
+import { Producto } from '../shared/model/producto';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { ProductosService } from '../services/productos.service';
+import { EmpresasService } from '../services/empresas.service';
 
 @Component({
   selector: 'app-productos',
@@ -19,127 +20,182 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./productos.component.sass'],
 })
 export class ProductosComponent {
-  productDialog: boolean = false;
-  products: Product[] = [];
-  product!: Product;
-  selectedProducts: Product[] = [];
+  categorias: any = [];
+  categoriaSeleccionada: any;
+  empresas: any = [];
+  empresaSeleccionada: any;
+  productosDialog: boolean = false;
+  productos: Producto[] = [];
+  producto!: Producto;
+  productoSeleccionado: Producto[] = [];
   submitted: boolean = false;
-  option: number=1;
+  option: number = 1;
 
   constructor(
-    private productService: ProductService,
+    private productosService: ProductosService,
+    private empresasService: EmpresasService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
-    this.productService.getProducts().then((data) => (this.products = data));
+    this.empresasService.obtenerCategorias().subscribe(
+      (result) => {
+        this.categorias = result;
+        this.categorias.forEach(categoria => {
+          categoria.empresas.forEach(empresa => {
+            empresa.idCategoria = categoria._id;
+            empresa.nombreCategoria = categoria.nombre;
+            this.empresas.push(empresa);
+            empresa.productos.forEach(producto => {
+              producto.idCategoria = categoria._id;
+              producto.nombreCategoria = categoria.nombre;
+              producto.idEmpresa = empresa._id;
+              producto.nombreEmpresa = empresa.nombre; 
+              this.productos.push(producto);
+            });
+          });
+        });
+        console.log("Categorias", this.categorias);
+        console.log("Empresas", this.empresas);
+        console.log("Productos", this.productos);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
 
   openNew() {
-    this.product = {};
+    this.producto = {};
     this.submitted = false;
-    this.productDialog = true;
+    this.productosDialog = true;
   }
 
   deleteSelectedProducts() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
-      header: 'Confirm',
+      message: '¿Estas seguro que quieres eliminar estos productos?',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.products = this.products.filter(
-          (val) => !this.selectedProducts.includes(val)
+        this.productos = this.productos.filter(
+          (val) => !this.productoSeleccionado.includes(val)
         );
-        this.selectedProducts = [];
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Products Deleted',
-          life: 3000,
-        });
+        for (let i = 0; i < this.productoSeleccionado.length; i++) {
+          this.productosService.borrarProducto(
+            this.productoSeleccionado[i].idCategoria,
+            this.productoSeleccionado[i].idEmpresa,
+            this.productoSeleccionado[i]._id
+          )
+          .subscribe(
+            result => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Exitoso',
+                detail: 'Producto eliminado',
+                life: 3000,
+              });
+            },
+            error => {
+              console.log(error);
+            }
+          );
+        }
       },
     });
   }
 
-  editProduct(product: Product) {
-    this.product = { ...product };
-    this.productDialog = true;
+  editProduct(producto: Producto) {
+    this.producto = { ...producto };
+    this.productosDialog = true;
   }
 
-  deleteProduct(product: Product) {
+  deleteProduct(producto: Producto) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + product.name + '?',
-      header: 'Confirm',
+      message: '¿Estas seguro que quieres eliminar este producto ' + producto.nombre + '?',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.products = this.products.filter((val) => val.id !== product.id);
-        this.product = {};
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Deleted',
-          life: 3000,
-        });
+        this.productosService.borrarProducto(producto.idCategoria, producto.idEmpresa, producto._id).subscribe(
+          result => {
+            this.productos = this.productos.filter((val) => val._id !== producto._id);
+            this.producto = {};
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exitoso',
+              detail: 'Producto eliminado',
+              life: 3000,
+            });
+          },
+          error => {
+            console.log(error);
+          }
+        );
       },
     });
   }
 
   hideDialog() {
-    this.productDialog = false;
+    this.productosDialog = false;
     this.submitted = false;
   }
 
   saveProduct() {
     this.submitted = true;
 
-    if (this.product.name?.trim()) {
-      if (this.product.id) {
-        this.products[this.findIndexById(this.product.id)] = this.product;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Updated',
-          life: 3000,
-        });
+    if (this.producto.nombre?.trim()) {
+      if (this.producto._id) {
+        this.productos[this.findIndexById(this.producto._id)] = this.producto;
+        this.productosService.actualizarProducto(this.producto.idCategoria, this.producto.idEmpresa, this.producto._id, this.producto).subscribe(
+          result => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exitoso',
+              detail: 'Producto modificado',
+              life: 3000,
+            });
+          },
+          error => {
+            console.log(error);
+          }
+        );
       } else {
-        this.product.id = this.createId();
-        this.product.image = 'product-placeholder.svg';
-        this.products.push(this.product);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Created',
-          life: 3000,
-        });
+        let producto = this.producto;
+        producto.nombreCategoria = this.categoriaSeleccionada.nombre;
+        producto.nombreEmpresa = this.empresaSeleccionada.nombre;
+        this.productosService.crearProducto(this.categoriaSeleccionada._id, this.empresaSeleccionada._id, this.producto).subscribe(
+          result => {
+            console.log(result);
+            this.productos.push(producto);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exito',
+              detail: 'Producto creado',
+              life: 3000,
+            });
+          },
+          error => {
+            console.log(error);
+          }
+        );
+        console.log("Producto", this.producto);
       }
 
-      this.products = [...this.products];
-      this.productDialog = false;
-      this.product = {};
+      this.productos = [...this.productos];
+      this.productosDialog = false;
+      this.producto = {};
     }
   }
 
   findIndexById(id: string): number {
     let index = -1;
-    for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].id === id) {
+    for (let i = 0; i < this.productos.length; i++) {
+      if (this.productos[i]._id === id) {
         index = i;
         break;
       }
     }
-
     return index;
-  }
-
-  createId(): string {
-    let id = '';
-    var chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
   }
 }
