@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Empresa } from '../shared/model/empresa';
+import { Empresa } from '../models/empresa';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { EmpresasService } from '../services/empresas.service';

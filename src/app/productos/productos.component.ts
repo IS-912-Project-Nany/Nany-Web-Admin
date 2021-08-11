@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Producto } from '../shared/model/producto';
+import { Producto } from '../models/producto';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ProductosService } from '../services/productos.service';
