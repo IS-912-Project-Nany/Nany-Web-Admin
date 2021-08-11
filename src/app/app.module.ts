@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CarrierService } from './shared/services/carrier.service';
-import { OrderService } from './shared/services/order.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -83,8 +81,6 @@ import { CategoriasComponent } from './categorias/categorias.component';
     RouterModule.forRoot([{ path: '', component: AppComponent }]),
   ],
   providers: [
-    CarrierService,
-    OrderService,
     MessageService,
     ConfirmationService,
   ],
