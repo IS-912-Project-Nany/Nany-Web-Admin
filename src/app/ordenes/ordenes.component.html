@@ -8,10 +8,9 @@
     <div class="card">
         <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
-                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="btn-new" (click)="openNew()"></button>
                 <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="btn-delete"
-                    (click)="deleteSelectedOrders()"
-                    [disabled]="!selectedOrders || !selectedOrders.length"></button>
+                    (click)="deleteSelectedOrdenes()"
+                    [disabled]="!ordenSeleccionada || !ordenSeleccionada.length"></button>
             </ng-template>
             <span class="p-input-icon-left" id="buscar">
                 <i class="pi pi-search"></i>
@@ -20,9 +19,9 @@
             </span>
         </p-toolbar>
 
-        <p-table #dt [value]="orders" [rows]="10" [paginator]="true"
+        <p-table #dt [value]="ordenes" [rows]="10" [paginator]="true"
             [globalFilterFields]="['name','country.name','representative.name','status']"
-            [(selection)]="selectedOrders" [rowHover]="true" dataKey="id"
+            [(selection)]="ordenSeleccionada" [rowHover]="true" dataKey="_id"
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} órdenes"
             [showCurrentPageReport]="true">
             <ng-template pTemplate="header">
@@ -30,39 +29,39 @@
                     <th style="width: 3rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="numberOrder">No. Orden</th>
-                    <th pSortableColumn="nameProduct">Producto</th>
-                    <th pSortableColumn="totalOrder">Total pedido</th>
-                    <th pSortableColumn="date">Fecha</th>
-                    <th pSortableColumn="nameClient">Cliente</th>
-                    <th pSortableColumn="ubication">Ubicación</th>
-                    <th pSortableColumn="nameCarrier">Motorista</th>
+                    <th pSortableColumn="numeroOrder">No. Orden</th>
+                    <th pSortableColumn="nombreCliente">Cliente</th>
+                    <th pSortableColumn="ubicacionOrden">Ubicación</th>
+                    <th pSortableColumn="factura">Total factura</th>
+                    <th pSortableColumn="fecha">Fecha</th>
+                    <th pSortableColumn="nombreMotorista">Motorista</th>
+                    <th pSortableColumn="tipoEstado">Estado</th>
                     <th></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-order>
+            <ng-template pTemplate="body" let-orden>
                 <tr>
                     <td>
-                        <p-tableCheckbox [value]="order"></p-tableCheckbox>
+                        <p-tableCheckbox [value]="orden"></p-tableCheckbox>
                     </td>
-                    <td>{{order.numberOrder}}</td>
-                    <td>{{order.nameProduct}}</td>
-                    <td>{{order.totalOrder | currency:'Lps. '}}</td>
-                    <td>{{order.date}}</td>
-                    <td>{{order.nameClient}}</td>
-                    <td>{{order.ubication}}</td>
-                    <td>{{order.nameCarrier}}</td>
+                    <td>{{orden.numOrden}}</td>
+                    <td>{{orden.cliente.nombre}} {{orden.cliente.apellido}}</td>
+                    <td>{{orden.ubicacionOrden.direccion}} Latitud: {{orden.ubicacionOrden.latitud}} Longitud: {{orden.ubicacionOrden.longitud}}</td>
+                    <td>{{orden.factura.total | currency:'Lps. '}}</td>
+                    <td>{{orden.fecha | date:'dd-MM-yyyy'}}</td>
+                    <td>{{orden.motorista.nombre}} {{orden.motorista.apellido}}</td>
+                    <td>{{orden.tipoEstado.nombreEstado}}</td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                            (click)="editOrder(order)"></button>
+                            (click)="editOrden(orden)"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                            (click)="deleteOrder(order)"></button>
+                            (click)="deleteOrden(orden)"></button>
                     </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
                 <div class="p-d-flex p-ai-center p-jc-between">
-                    En total hay {{orders ? orders.length : 0 }} órdenes.
+                    En total hay {{ordenes ? ordenes.length : 0 }} órdenes.
                 </div>
             </ng-template>
         </p-table>
@@ -70,37 +69,38 @@
 
     <!--Modal Create Company-->
 
-    <p-dialog [(visible)]="orderDialog" [style]="{width: '450px'}" header="Detalle de Orden" [modal]="true"
+    <p-dialog [(visible)]="ordenDialog" [style]="{width: '450px'}" header="Detalle de Orden" [modal]="true"
         styleClass="p-fluid" id="admim-modal">
         <ng-template pTemplate="content">
             <div class="p-field">
                 <label for="numberOrder">No. Orden</label>
-                <input type="text" pInputText id="numberOrder" [(ngModel)]="order.numberOrder" required autofocus />
-                <small class="p-error" *ngIf="submitted && !order.numberOrder">Number is required.</small>
-            </div>
-            <div class="p-field">
-                <label class="p-mb-3">Producto</label>
-                <input type="text" pInputText id="nameProduct" [(ngModel)]="order.nameProduct" required autofocus />
-            </div>
-            <div class="p-field">
-                <label for="totalOrder">Total orden</label>
-                <input type="text" pInputText id="totalOrder" [(ngModel)]="order.totalOrder" required autofocus />
-            </div>
-            <div class="p-field">
-                <label for="date">Fecha</label>
-                <input type="text" pInputText id="date" [(ngModel)]="order.date" required autofocus />
+                <input type="text" pInputText id="numOrden" [(ngModel)]="orden.numOrden" required disabled/>
+                <small class="p-error" *ngIf="submitted && !order.numOrder">Required.</small>
             </div>
             <div class="p-field">
                 <label for="nameClient">Cliente</label>
-                <input type="text" pInputText id="nameClient" [(ngModel)]="order.nameClient" required autofocus />
+                <input type="text" pInputText id="cliente" [(ngModel)]="orden.cliente.nombre" required disabled />
             </div>
             <div class="p-field">
                 <label for="ubication">Ubicación</label>
-                <input type="text" pInputText id="ubication" [(ngModel)]="order.ubication" required autofocus />
+                <input type="text" pInputText id="ubicacion" [(ngModel)]="orden.ubicacionOrden.direccion" required disabled/>
+            </div>
+            <div class="p-field">
+                <label for="totalOrder">Total factura</label>
+                <input type="text" pInputText id="totalFactura" [(ngModel)]="orden.factura.total" required disabled/>
+            </div>
+            <div class="p-field">
+                <label for="date">Fecha</label>
+                <input type="text" pInputText id="fecha" [(ngModel)]="orden.fecha" required disabled/>
             </div>
             <div class="p-field">
                 <label class="p-mb-3">Motorista</label>
-                <input type="text" pInputText id="nameCarrier" [(ngModel)]="order.nameCarrier" required autofocus />
+                <p-dropdown [options]="listaMotoristas"  name="motorista" [(ngModel)]="orden.motorista" placeholder="Seleccione un motorista" 
+                optionLabel="nombre"></p-dropdown>
+            </div>
+            <div class="p-field">
+                <label class="p-mb-3">Estado de orden</label>
+                <input type="text" pInputText id="estado" [(ngModel)]="orden.tipoEstado.nombreEstado" required disabled/>
             </div>
         </ng-template>
 
@@ -108,7 +108,7 @@
             <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" id="btn-mmodal1"
                 (click)="hideDialog()"></button>
             <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" id="btn-mmodal2"
-                (click)="saveOrder()"></button>
+                (click)="saveOrden()"></button>
         </ng-template>
     </p-dialog>
 

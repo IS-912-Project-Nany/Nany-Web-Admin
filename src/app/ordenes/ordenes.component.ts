@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Order } from '../shared/model/order';
-import { OrderService } from '../shared/services/order.service';
+import { Orden } from '../models/orden';
 import { ConfirmationService } from 'primeng/api';
+import { OrdenesService } from '../services/ordenes.service';
 import { MessageService } from 'primeng/api';
+import { MotoristasService } from '../services/motoristas.service';
 
 @Component({
   selector: 'app-ordenes',
@@ -19,111 +20,138 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./ordenes.component.sass']
 })
 export class OrdenesComponent {
-  orderDialog: boolean = false;
-  orders: Order[] = [];
-  order!: Order;
-  selectedOrders: Order[] = [];
+  ordenDialog: boolean = false;
+  ordenes: Orden[] = [];
+  orden!: Orden;
+  ordenSeleccionada: Orden[] = [];
+  listaMotoristas: [];
   submitted: boolean = false;
   option: number=3;
 
   constructor(
-    private orderService: OrderService,
+    private ordenesService: OrdenesService,
+    private motoristasService: MotoristasService, 
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
-    this.orderService.getOrders().then((data) => (this.orders = data));
+    this.ordenesService.obtenerOrdenes().subscribe(
+      (result)=>{
+        this.ordenes = result;
+        console.log(result);
+      },
+      (error)=>{
+        console.log(error);
+      }
+    );
+
+    this.motoristasService.obtenerMotoristas().subscribe(
+      result=>{
+        this.listaMotoristas = result;
+        console.log(result);
+      },
+      error=> console.log(error)
+    )
     document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
 
-  openNew() {
-    this.order = {};
-    this.submitted = false;
-    this.orderDialog = true;
-  }
-
-  deleteSelectedOrder() {
+  deleteSelectedOrdenes() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected orders?',
-      header: 'Confirm',
+      message: '¿Estas seguro que quieres eliminar estas ordenes?',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.orders = this.orders.filter(
-          (val) => !this.selectedOrders.includes(val)
+        this.ordenes = this.ordenes.filter(
+          (val) => !this.ordenSeleccionada.includes(val)
         );
-        this.selectedOrders = [];
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Orders Deleted',
-          life: 3000,
-        });
+        for (let i = 0; i < this.ordenSeleccionada.length; i++) {
+          this.ordenesService.eliminarOrden(this.ordenSeleccionada[i]._id).subscribe(
+            result=>{
+              this.ordenSeleccionada = [];
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Exitoso',
+                detail: 'Ordenes eliminadas',
+                life: 3000,
+              });
+            },
+            error=>{
+              console.log(error);
+            }
+          )
+          
+        }
       },
     });
   }
 
-  editOrder(order: Order) {
-    this.order = { ...order };
-    this.orderDialog = true;
+  editOrden(orden: Orden) {
+    this.orden = { ...orden };
+    this.ordenDialog = true;
   }
 
-  deleteOrder(order: Order) {
+  deleteOrden(orden: Orden) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + order.numberOrder + '?',
-      header: 'Confirm',
+      message: '¿Estas seguro que quieres eliminar esta orden numero ' + orden.numOrden + '?',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.orders = this.orders.filter((val) => val.id !== order.id);
-        this.order = {};
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Order Deleted',
-          life: 3000,
-        });
+        this.ordenesService.eliminarOrden(orden._id).subscribe(
+          result=>{
+            this.ordenes = this.ordenes.filter((val) => val._id !== orden._id);
+            this.orden = {};
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exitoso',
+              detail: 'Orden eliminada',
+              life: 3000,
+            });
+          },
+          error=>{
+            console.log(error);
+          }
+        )
       },
     });
   }
 
   hideDialog() {
-    this.orderDialog = false;
+    this.ordenDialog = false;
     this.submitted = false;
   }
 
-  saveOrder() {
+  saveOrden() {
     this.submitted = true;
 
-    if (this.order.nameProduct?.trim()) {
-      if (this.order.id) {
-        this.orders[this.findIndexById(this.order.id)] = this.order;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Order Updated',
-          life: 3000,
-        });
-      } else {
-        this.order.id = this.createId();
-        this.orders.push(this.order);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Order Created',
-          life: 3000,
-        });
-      }
+    if (this.orden.numOrden?.trim()) {
+      if (this.orden._id) {
+        this.ordenes[this.findIndexById(this.orden._id)] = this.orden;
+        this.ordenesService.actualizarOrden(this.orden._id, this.orden).subscribe(
+          result=>{
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exitoso',
+              detail: 'Orden actualizada',
+              life: 3000,
+            });
+          },
+          error => {
+            console.log(error);
+          }
+        )
+      } 
 
-      this.orders = [...this.orders];
-      this.orderDialog = false;
-      this.order = {};
+      this.ordenes = [...this.ordenes];
+      this.ordenDialog = false;
+      this.orden = {};
     }
   }
 
   findIndexById(id: string): number {
     let index = -1;
-    for (let i = 0; i < this.orders.length; i++) {
-      if (this.orders[i].id === id) {
+    for (let i = 0; i < this.ordenes.length; i++) {
+      if (this.ordenes[i]._id === id) {
         index = i;
         break;
       }
