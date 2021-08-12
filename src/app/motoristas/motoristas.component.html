@@ -8,10 +8,9 @@
     <div class="card">
         <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
-                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="btn-new" (click)="openNew()"></button>
                 <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="btn-delete"
-                    (click)="deleteSelectedCarriers()"
-                    [disabled]="!selectedCarriers || !selectedCarriers.length"></button>
+                    (click)="deleteSelectedMotorista()"
+                    [disabled]="!motoristaSeleccionado || !motoristaSeleccionado.length"></button>
             </ng-template>
             <span class="p-input-icon-left" id="buscar">
                 <i class="pi pi-search"></i>
@@ -20,9 +19,9 @@
             </span>
         </p-toolbar>
 
-        <p-table #dt [value]="carriers" [rows]="10" [paginator]="true"
+        <p-table #dt [value]="motoristas" [rows]="10" [paginator]="true"
             [globalFilterFields]="['name','country.name','representative.name','status']"
-            [(selection)]="selectedCarriers" [rowHover]="true" dataKey="id"
+            [(selection)]="motoristaSeleccionado" [rowHover]="true" dataKey="_id"
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} motoristas"
             [showCurrentPageReport]="true">
             <ng-template pTemplate="header">
@@ -35,7 +34,7 @@
                     <th pSortableColumn="city">Ciudad</th>
                     <th pSortableColumn="gender">Género</th>
                     <th pSortableColumn="birthday">Nacimiento</th>
-                    <th pSortableColumn="motorcycle">Moto-cicleta</th>
+                    <th pSortableColumn="motorcycle">Motocicleta</th>
                     <th pSortableColumn="license">Licencia</th>
                     <th pSortableColumn="internet">Datos móviles</th>
                     <th pSortableColumn="experience">Experiencia</th>
@@ -43,32 +42,50 @@
                     <th></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-carrier>
+            <ng-template pTemplate="body" let-motorista>
                 <tr>
                     <td>
-                        <p-tableCheckbox [value]="carrier"></p-tableCheckbox>
+                        <p-tableCheckbox [value]="motorista"></p-tableCheckbox>
                     </td>
-                    <td>{{carrier.name}}</td>
-                    <td>{{carrier.lastname}}</td>
-                    <td>{{carrier.city}}</td>
-                    <td>{{carrier.gender}}</td>
-                    <td>{{carrier.birthday}}</td>
-                    <td>{{carrier.motorcycle}}</td>
-                    <td>{{carrier.license}}</td>
-                    <td>{{carrier.internet}}</td>
-                    <td>{{carrier.experience}}</td>
-                    <td>{{carrier.status}}</td>
+                    <td>{{motorista.nombre}}</td>
+                    <td>{{motorista.apellido}}</td>
+                    <td>{{motorista.ciudad.ciudad}}</td>
+                    <td>
+                        <label *ngIf="motorista.genero">Femenino</label>
+                        <label *ngIf="!motorista.genero">Masculino</label>
+                    </td>
+                    <td>{{motorista.fechaNacimiento | date:'dd-MM-yyyy'}}</td>
+                    <td> 
+                        <fa-icon [icon]="faCheckCircle" class="fa-2x ic-check" *ngIf="motorista.tipoUsuario.motoristaInfo.motocicleta"></fa-icon>
+                        <fa-icon [icon]="faTimesCircle" class="fa-2x ic-time" *ngIf="!motorista.tipoUsuario.motoristaInfo.motocicleta"></fa-icon>
+                    </td>
+                    <td>
+                        <fa-icon [icon]="faCheckCircle" class="fa-2x ic-check" *ngIf="motorista.tipoUsuario.motoristaInfo.licencia"></fa-icon>
+                        <fa-icon [icon]="faTimesCircle" class="fa-2x ic-time" *ngIf="!motorista.tipoUsuario.motoristaInfo.licencia"></fa-icon>
+                    </td>
+                    <td>
+                        <fa-icon [icon]="faCheckCircle" class="fa-2x ic-check" *ngIf="motorista.tipoUsuario.motoristaInfo.datosMoviles"></fa-icon>
+                        <fa-icon [icon]="faTimesCircle" class="fa-2x ic-time" *ngIf="!motorista.tipoUsuario.motoristaInfo.datosMoviles"></fa-icon>
+                    </td>
+                    <td>
+                        <fa-icon [icon]="faCheckCircle" class="fa-2x ic-check" *ngIf="motorista.tipoUsuario.motoristaInfo.experiencia"></fa-icon>
+                        <fa-icon [icon]="faTimesCircle" class="fa-2x ic-time" *ngIf="!motorista.tipoUsuario.motoristaInfo.experiencia"></fa-icon>
+                    </td>
+                    <td>
+                        <fa-icon [icon]="faCheckCircle" class="fa-2x ic-check" *ngIf="motorista.tipoUsuario.motoristaInfo.estadoAdmision"></fa-icon>
+                        <fa-icon [icon]="faTimesCircle" class="fa-2x ic-time" *ngIf="!motorista.tipoUsuario.motoristaInfo.estadoAdmision"></fa-icon>
+                    </td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                            (click)="editCarrier(carrier)"></button>
+                            (click)="editMotorista(motorista)"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                            (click)="deleteCarrier(carrier)"></button>
+                            (click)="deleteMotorista(motorista)"></button>
                     </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
                 <div class="p-d-flex p-ai-center p-jc-between">
-                    En total hay {{carriers ? carriers.length : 0 }} motoristas.
+                    En total hay {{motoristas ? motoristas.length : 0 }} motoristas.
                 </div>
             </ng-template>
         </p-table>
@@ -76,49 +93,49 @@
 
     <!--Modal Create Company-->
 
-    <p-dialog [(visible)]="carrierDialog" [style]="{width: '450px'}" header="Detalle de Motorista" [modal]="true"
+    <p-dialog [(visible)]="motoristaDialog" [style]="{width: '450px'}" header="Detalle de Motorista" [modal]="true"
         styleClass="p-fluid" id="admim-modal">
         <ng-template pTemplate="content">
             <div class="p-field">
                 <label for="name">Nombre</label>
-                <input type="text" pInputText id="name" [(ngModel)]="carrier.name" required autofocus />
-                <small class="p-error" *ngIf="submitted && !carrier.name">Name is required.</small>
+                <input type="text" pInputText id="name" [(ngModel)]="motorista.nombre" required disabled />
+                <small class="p-error" *ngIf="submitted && !motorista.nombre">Name is required.</small>
             </div>
             <div class="p-field">
                 <label class="p-mb-3">Apellido</label>
-                <input type="text" pInputText id="lastname" [(ngModel)]="carrier.lastname" required autofocus />
+                <input type="text" pInputText id="lastname" [(ngModel)]="motorista.apellido" required disabled />
             </div>
             <div class="p-field">
                 <label for="city">Ciudad</label>
-                <input type="text" pInputText id="city" [(ngModel)]="carrier.city" required autofocus />
+                <input type="text" pInputText id="city" [(ngModel)]="motorista.ciudad.ciudad" required disabled />
             </div>
             <div class="p-field">
                 <label for="gender">Género</label>
-                <input type="text" pInputText id="gender" [(ngModel)]="carrier.gender" required autofocus />
+                <input type="text" pInputText id="gender" [(ngModel)]="motorista.genero" required disabled />
             </div>
             <div class="p-field">
                 <label for="birthday">Fecha de nacimiento</label>
-                <input type="text" pInputText id="birthday" [(ngModel)]="carrier.birthday" required autofocus />
+                <input type="text" pInputText id="birthday" [(ngModel)]="motorista.fechaNacimiento" required disabled />
             </div>
             <div class="p-field">
-                <label for="motorcycle">¿Posee motocicleta?</label>
-                <input type="text" pInputText id="motorcycle" [(ngModel)]="carrier.motorcycle" required autofocus />
+                <label for="motorcycle" class="mb-2">¿Posee motocicleta?</label><br>
+                <p-inputSwitch [(ngModel)]="motorista.tipoUsuario.motoristaInfo.motocicleta" class="mb-2" disabled></p-inputSwitch>
             </div>
             <div class="p-field">
-                <label class="p-mb-3">Licencia vigente</label>
-                <input type="text" pInputText id="license" [(ngModel)]="carrier.license" required autofocus />
+                <label class="mb-2">Licencia vigente</label><br>
+                <p-inputSwitch [(ngModel)]="motorista.tipoUsuario.motoristaInfo.licencia" class="mb-2" disabled></p-inputSwitch>
             </div>
             <div class="p-field">
-                <label for="internet">Datos móviles</label>
-                <input type="text" pInputText id="internet" [(ngModel)]="carrier.internet" required autofocus />
+                <label for="internet" class="mb-2">Datos móviles</label><br>
+                <p-inputSwitch [(ngModel)]="motorista.tipoUsuario.motoristaInfo.datosMoviles" class="mb-2" disabled></p-inputSwitch>
             </div>
             <div class="p-field">
-                <label for="experience">Experiencia</label>
-                <input type="text" pInputText id="experience" [(ngModel)]="carrier.experience" required autofocus />
+                <label for="experience" class="mb-2">Experiencia</label><br>
+                <p-inputSwitch [(ngModel)]="motorista.tipoUsuario.motoristaInfo.experiencia" class="mb-2" disabled></p-inputSwitch>
             </div>
             <div class="p-field">
-                <label for="status">Estado</label>
-                <input type="text" pInputText id="status" [(ngModel)]="carrier.status" required autofocus />
+                <label for="status" class="mb-2">Estado</label><br>
+                <p-inputSwitch [(ngModel)]="motorista.tipoUsuario.motoristaInfo.estadoAdmision" (onChange)="handleChange($event)" class="mb-2"></p-inputSwitch>
             </div>
         </ng-template>
 
@@ -126,7 +143,7 @@
             <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" id="btn-mmodal1"
                 (click)="hideDialog()"></button>
             <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" id="btn-mmodal2"
-                (click)="saveCarrier()"></button>
+                (click)="saveMotorista()"></button>
         </ng-template>
     </p-dialog>
 

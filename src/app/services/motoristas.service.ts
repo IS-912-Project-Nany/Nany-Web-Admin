@@ -10,8 +10,8 @@ export class MotoristasService {
 
   constructor(private httpClient: HttpClient) { }
 
-  obtenerMotoristas(idMotorista: String):Observable<any>{
-    return this.httpClient.get(`${API_BASE_URL}/usuarios/motoristas/${idMotorista}`);
+  obtenerMotoristas():Observable<any>{
+    return this.httpClient.get(`${API_BASE_URL}/usuarios/motoristas`);
   }
 
   //Actualizar el estado de un motorista

@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Carrier } from '../shared/model/carrier';
-import { CarrierService } from '../shared/services/carrier.service';
+import { Motorista } from '../models/motorista';
+import { MotoristasService } from '../services/motoristas.service';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-motoristas',
@@ -19,111 +21,136 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./motoristas.component.sass']
 })
 export class MotoristasComponent {
-  carrierDialog: boolean = false;
-  carriers: Carrier[] = [];
-  carrier!: Carrier;
-  selectedCarriers: Carrier[] = [];
+  motoristaDialog: boolean = false;
+  motoristas: Motorista[] = [];
+  motorista!: Motorista;
+  motoristaSeleccionado: Motorista[] = [];
   submitted: boolean = false;
   option: number=2;
 
+  faCheckCircle = faCheckCircle;
+  faTimesCircle = faTimesCircle;
+
   constructor(
-    private carrierService: CarrierService,
+    private motoristasService: MotoristasService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
-    this.carrierService.getCarriers().then((data) => (this.carriers = data));
+    this.motoristasService.obtenerMotoristas().subscribe(
+      result=>{
+        this.motoristas = result;
+        console.log(result);
+      },
+      error=> console.log(error)
+    )
     document.getElementById('body').style.backgroundColor = '#FFE9C7';
   }
 
-  openNew() {
-    this.carrier = {};
-    this.submitted = false;
-    this.carrierDialog = true;
+  handleChange(e) {
+    this.motorista.tipoUsuario.motoristaInfo.estadoAdmision = e.checked;
   }
 
-  deleteSelectedCarrier() {
+  deleteSelectedMotorista() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected carriers?',
-      header: 'Confirm',
+      message: '¿Estas seguro que quieres eliminar estos motoristas?',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.carriers = this.carriers.filter(
-          (val) => !this.selectedCarriers.includes(val)
+        this.motoristas = this.motoristas.filter(
+          (val) => !this.motoristaSeleccionado.includes(val)
         );
-        this.selectedCarriers = [];
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Carriers Deleted',
-          life: 3000,
-        });
+        for (let i = 0; i < this.motoristaSeleccionado.length; i++) {
+          this.motoristasService.eliminarMotorista(this.motoristaSeleccionado[i]._id).subscribe(
+            result=>{
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Exitoso',
+                detail: 'Motoristas eliminados',
+                life: 3000,
+              });
+            },
+            error=>{
+              console.log(error);
+            }
+          )
+        }
       },
     });
   }
 
-  editCarrier(carrier: Carrier) {
-    this.carrier = { ...carrier };
-    this.carrierDialog = true;
+  editMotorista(motorista: Motorista) {
+    this.motorista = { ...motorista };
+    this.motoristaDialog = true;
   }
 
-  deleteCarrier(carrier: Carrier) {
+  deleteMotorista(motorista: Motorista) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + carrier.name + '?',
-      header: 'Confirm',
+      message: '¿Estas seguro que quieres eliminar este ' + motorista.nombre + '?',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.carriers = this.carriers.filter((val) => val.id !== carrier.id);
-        this.carrier = {};
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Carrier Deleted',
-          life: 3000,
-        });
+        this.motoristasService.eliminarMotorista(this.motorista._id).subscribe(
+          result=>{
+            this.motoristas = this.motoristas.filter((val) => val._id !== motorista._id);
+            this.motorista = {};
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exitoso',
+              detail: 'Motorista eliminado',
+              life: 3000,
+            });
+          },
+          error=>{
+            console.log(error);
+          }
+        )
+        
       },
     });
   }
 
   hideDialog() {
-    this.carrierDialog = false;
+    this.motoristaDialog = false;
     this.submitted = false;
   }
 
-  saveCarrier() {
+  saveMotorista() {
     this.submitted = true;
 
-    if (this.carrier.name?.trim()) {
-      if (this.carrier.id) {
-        this.carriers[this.findIndexById(this.carrier.id)] = this.carrier;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Carrier Updated',
-          life: 3000,
-        });
-      } else {
-        this.carrier.id = this.createId();
-        this.carriers.push(this.carrier);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Carrier Created',
-          life: 3000,
-        });
+    if (this.motorista.nombre?.trim()) {
+      if (this.motorista._id) {
+        this.motoristas[this.findIndexById(this.motorista._id)] = this.motorista;
+        console.log(this.motorista);
+        let estado = {estadoAdmision: this.motorista.tipoUsuario.motoristaInfo.estadoAdmision};
+    
+        this.motoristasService.actualizarMotorista(this.motorista._id, estado).subscribe(
+          result=>{
+            console.log(result);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exitoso',
+              detail: 'Estado de motorista actualizado',
+              life: 3000,
+            });
+          },
+          error=>{
+            console.log(error);
+          }
+        )
       }
 
-      this.carriers = [...this.carriers];
-      this.carrierDialog = false;
-      this.carrier = {};
+      this.motoristas = [...this.motoristas];
+      this.motoristaDialog = false;
+      this.motorista = {};
     }
   }
 
   findIndexById(id: string): number {
     let index = -1;
-    for (let i = 0; i < this.carriers.length; i++) {
-      if (this.carriers[i].id === id) {
+    for (let i = 0; i < this.motoristas.length; i++) {
+      if (this.motoristas[i]._id === id) {
         index = i;
         break;
       }
