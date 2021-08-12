@@ -30,6 +30,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { ProductosComponent } from './productos/productos.component';
 import { LoginComponent } from './login/login.component';
@@ -71,6 +73,8 @@ import { CategoriasComponent } from './categorias/categorias.component';
     HttpClientModule,
     FileUploadModule,
     ToolbarModule,
+    InputSwitchModule,
+    FontAwesomeModule,
     RatingModule,
     FormsModule,
     ReactiveFormsModule,
