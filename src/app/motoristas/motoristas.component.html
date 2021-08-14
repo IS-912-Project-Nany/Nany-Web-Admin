@@ -51,8 +51,8 @@
                     <td>{{motorista.apellido}}</td>
                     <td>{{motorista.ciudad.ciudad}}</td>
                     <td>
-                        <label *ngIf="motorista.genero">Femenino</label>
-                        <label *ngIf="!motorista.genero">Masculino</label>
+                        <label *ngIf="motorista.genero">Masculino</label>
+                        <label *ngIf="!motorista.genero">Femenino</label>
                     </td>
                     <td>{{motorista.fechaNacimiento | date:'dd-MM-yyyy'}}</td>
                     <td> 
@@ -67,10 +67,7 @@
                         <fa-icon [icon]="faCheckCircle" class="fa-2x ic-check" *ngIf="motorista.tipoUsuario.motoristaInfo.datosMoviles"></fa-icon>
                         <fa-icon [icon]="faTimesCircle" class="fa-2x ic-time" *ngIf="!motorista.tipoUsuario.motoristaInfo.datosMoviles"></fa-icon>
                     </td>
-                    <td>
-                        <fa-icon [icon]="faCheckCircle" class="fa-2x ic-check" *ngIf="motorista.tipoUsuario.motoristaInfo.experiencia"></fa-icon>
-                        <fa-icon [icon]="faTimesCircle" class="fa-2x ic-time" *ngIf="!motorista.tipoUsuario.motoristaInfo.experiencia"></fa-icon>
-                    </td>
+                    <td>{{motorista.tipoUsuario.motoristaInfo.experiencia.experiencia}}</td>
                     <td>
                         <fa-icon [icon]="faCheckCircle" class="fa-2x ic-check" *ngIf="motorista.tipoUsuario.motoristaInfo.estadoAdmision"></fa-icon>
                         <fa-icon [icon]="faTimesCircle" class="fa-2x ic-time" *ngIf="!motorista.tipoUsuario.motoristaInfo.estadoAdmision"></fa-icon>
@@ -131,7 +128,7 @@
             </div>
             <div class="p-field">
                 <label for="experience" class="mb-2">Experiencia</label><br>
-                <p-inputSwitch [(ngModel)]="motorista.tipoUsuario.motoristaInfo.experiencia" class="mb-2" disabled></p-inputSwitch>
+                <input type="text" pInputText id="experiencia" [(ngModel)]="motorista.tipoUsuario.motoristaInfo.experiencia.experiencia" required disabled />
             </div>
             <div class="p-field">
                 <label for="status" class="mb-2">Estado</label><br>
