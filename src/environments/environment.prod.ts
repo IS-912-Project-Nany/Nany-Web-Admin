@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  ROOT_API: 'https://nany-rest-api.herokuapp.com'
 };
