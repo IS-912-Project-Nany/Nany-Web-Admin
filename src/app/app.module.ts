@@ -32,6 +32,7 @@ import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MenubarModule } from 'primeng/menubar';
 
 import { ProductosComponent } from './productos/productos.component';
 import { LoginComponent } from './login/login.component';
@@ -69,6 +70,7 @@ import { CategoriasComponent } from './categorias/categorias.component';
     DropdownModule,
     ButtonModule,
     InputTextModule,
+    MenubarModule,
     ProgressBarModule,
     HttpClientModule,
     FileUploadModule,
