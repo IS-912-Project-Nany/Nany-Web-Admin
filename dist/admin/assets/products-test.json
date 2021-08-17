@@ -1,0 +1,58 @@
+{
+	"data": [
+		{
+			"id": "132100",
+			"name": "Combo Wendy's",
+			"description": "Descripcion producto",
+			"price": 165,
+			"image": "combo-wendys.png",
+			"quantity": 200,
+			"company": "Wendy's"
+		},
+		{
+			"id": "102130",
+			"name": "Combo Pizza Hut",
+			"description": "Descripcion producto",
+			"price": 125,
+			"image": "combo-pizzahut.jpg",
+			"quantity": 120,
+			"company": "Pizza Hut"
+		},
+		{
+			"id": "1230",
+			"name": "Coca Cola 2L",
+			"description": "Descripcion producto",
+			"price": 100,
+			"image": "paquete-cocacola.jpg",
+			"quantity": 500,
+			"company": "Coca Cola"
+		},
+		{
+			"id": "132100",
+			"name": "Combo Wendy's",
+			"description": "Descripcion producto",
+			"price": 165,
+			"image": "combo-wendys.png",
+			"quantity": 200,
+			"company": "Wendy's"
+		},
+		{
+			"id": "102130",
+			"name": "Combo Pizza Hut",
+			"description": "Descripcion producto",
+			"price": 125,
+			"image": "combo-pizzahut.jpg",
+			"quantity": 120,
+			"company": "Pizza Hut"
+		},
+		{
+			"id": "1230",
+			"name": "Coca Cola 2L",
+			"description": "Descripcion producto",
+			"price": 100,
+			"image": "paquete-cocacola.jpg",
+			"quantity": 500,
+			"company": "Coca Cola"
+		}
+	]
+}
