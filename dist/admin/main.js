@@ -66,7 +66,7 @@ CategoriasComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Kevin\OneDrive\Documents\Angular\Nany-Web-Admin\src\main.ts */"zUnb");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Proyecto-Nany\Nany-Web-Admin\src\main.ts */"zUnb");
 
 
 /***/ }),
@@ -85,8 +85,7 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 const environment = {
-    production: false,
-    ROOT_API: 'https://nany-rest-api.herokuapp.com'
+    production: false
 };
 /*
  * For easier debugging in development mode, you can import the following file
@@ -2322,7 +2321,8 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_38__["ɵɵdefineInjecto
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "API_BASE_URL", function() { return API_BASE_URL; });
-const API_BASE_URL = /*environment.ROOT_API */ 'http://localhost:8888';
+const API_BASE_URL = 'https://nany-rest-api.herokuapp.com'; /* 'http://localhost:8888'*/
+;
 
 
 /***/ }),
