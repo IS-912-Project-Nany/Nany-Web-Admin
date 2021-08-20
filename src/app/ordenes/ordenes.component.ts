@@ -127,6 +127,10 @@ export class OrdenesComponent {
     if (this.orden.numOrden?.trim()) {
       if (this.orden._id) {
         this.ordenes[this.findIndexById(this.orden._id)] = this.orden;
+        this.orden.tipoEstado = {
+          idEstado: "1",
+          nombreEstado: "En camino"
+        };
         this.ordenesService.actualizarOrden(this.orden._id, this.orden).subscribe(
           result=>{
             this.messageService.add({
