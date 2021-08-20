@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Kevin\OneDrive\Documents\Angular\Nany-Web-Admin\src\polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Proyecto-Nany\Nany-Web-Admin\src\polyfills.ts */"hN/g");
 
 
 /***/ }),

@@ -16093,12 +16093,12 @@ h5 {
   width: max-content;
   margin-left: auto !important;
 }
-div .p-menubar .p-component .p-menubarsub {
+::ng-deep .p-component {
   width: 100% !important;
 }
 #menu-admin img {
   width: auto;
-  margin: 5px 20px;
+  margin: 5px 50% 5px 20px;
   height: 62.14px;
 }
 #menu-admin img:hover {
