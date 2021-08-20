@@ -23,6 +23,7 @@ import { UploadService } from '../services/upload.service';
 export class ProductosComponent {
   categorias: any = [];
   categoriaSeleccionada: any;
+  empresasPorCategoria: any =[];
   empresas: any = [];
   empresaSeleccionada: any;
   productosDialog: boolean = false;
@@ -69,6 +70,12 @@ export class ProductosComponent {
       }
     );
     document.getElementById('body').style.backgroundColor = '#FFE9C7';
+  }
+
+  seleccionarEmpresas() {
+    this.empresasPorCategoria = [];
+    console.log(this.categoriaSeleccionada);
+    this.empresasPorCategoria = this.categoriaSeleccionada.empresas;
   }
 
   openNew() {

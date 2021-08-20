@@ -81,12 +81,12 @@
                 class="product-image" *ngIf="producto.imagen">
             <div class="p-field">
                 <label class="p-mb-3">Categoria</label>
-                <p-dropdown [options]="categorias"  name="categoriaSeleccionada" [(ngModel)]="categoriaSeleccionada" placeholder="Seleccione una Categoria" optionLabel="nombre">
+                <p-dropdown [options]="categorias"  name="categoriaSeleccionada" [(ngModel)]="categoriaSeleccionada" (onChange)='seleccionarEmpresas()' placeholder="Seleccione una Categoria" optionLabel="nombre">
                 </p-dropdown>
             </div>
             <div class="p-field">
                 <label class="p-mb-3">Empresa</label>
-                <p-dropdown [options]="empresas"  name="empresaSeleccionada" [(ngModel)]="empresaSeleccionada" placeholder="Seleccione una Empresa" optionLabel="nombre">
+                <p-dropdown [options]="empresasPorCategoria"  name="empresaSeleccionada" [(ngModel)]="empresaSeleccionada" placeholder="Seleccione una Empresa" optionLabel="nombre">
                 </p-dropdown>
             </div>
             <div class="p-field">

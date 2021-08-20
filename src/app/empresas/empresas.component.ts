@@ -151,6 +151,11 @@ saveCompany() {
      
     } else {
       let empresaAgregar = this.empresa;
+      this.categorias.forEach(categoria => {
+        if (this.categoriaSeleccionada._id == categoria._id) {
+          empresaAgregar.nombreCategoria = categoria.nombre;
+        }
+      });
       this.empresasService.crearEmpresa(this.categoriaSeleccionada._id, this.empresa).subscribe(
         result => {
           console.log(result);
