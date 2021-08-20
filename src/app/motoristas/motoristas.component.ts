@@ -5,6 +5,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 @Component({
   selector: 'app-motoristas',
@@ -41,7 +42,7 @@ export class MotoristasComponent {
     this.motoristasService.obtenerMotoristas().subscribe(
       result=>{
         this.motoristas = result;
-        console.log(result);
+        console.log(this.motoristas);
       },
       error=> console.log(error)
     )
@@ -124,7 +125,13 @@ export class MotoristasComponent {
         this.motoristas[this.findIndexById(this.motorista._id)] = this.motorista;
         console.log(this.motorista);
         let estado = {estadoAdmision: this.motorista.tipoUsuario.motoristaInfo.estadoAdmision};
-    
+        let data = {
+          nombre: this.motorista.nombre,
+          apellido: this.motorista.apellido,
+          correo: this.motorista.correo
+        };
+        console.log(data);
+        
         this.motoristasService.actualizarMotorista(this.motorista._id, estado).subscribe(
           result=>{
             console.log(result);
@@ -134,6 +141,13 @@ export class MotoristasComponent {
               detail: 'Estado de motorista actualizado',
               life: 3000,
             });
+            
+            emailjs.send("service_r9lq1rs", "template_6glta8k", data, 'user_nqxC017pPSZMH26b8tVMc')
+              .then((result: EmailJSResponseStatus) => {
+                console.log(result.text);
+              }, (error) => {
+                console.log(error.text);
+              });
           },
           error=>{
             console.log(error);
