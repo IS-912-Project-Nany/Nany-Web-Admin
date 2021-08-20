@@ -19,8 +19,8 @@
             </span>
         </p-toolbar>
 
-        <p-table #dt [value]="ordenes" [rows]="10" [paginator]="true"
-            [globalFilterFields]="['name','country.name','representative.name','status']"
+        <p-table #dt [value]="ordenes" [rows]="10" [paginator]="true" [totalRecords]="ordenes.length"
+            [globalFilterFields]="['Cliente','Motorista','Estado']"
             [(selection)]="ordenSeleccionada" [rowHover]="true" dataKey="_id"
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} órdenes"
             [showCurrentPageReport]="true">

@@ -20,8 +20,8 @@
             </span>
         </p-toolbar>
 
-        <p-table #dt [value]="empresas" [rows]="10" [paginator]="true"
-            [globalFilterFields]="['name','country.name','representative.name','status']"
+        <p-table #dt [value]="empresas" [rows]="10" [paginator]="true" [totalRecords]="empresas.length"
+            [globalFilterFields]="['nombre','ubicacion']"
             [(selection)]="empresaSeleccionada" [rowHover]="true" dataKey="_id"
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} empresas"
             [showCurrentPageReport]="true">

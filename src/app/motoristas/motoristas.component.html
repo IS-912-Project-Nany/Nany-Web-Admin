@@ -19,8 +19,8 @@
             </span>
         </p-toolbar>
 
-        <p-table #dt [value]="motoristas" [rows]="10" [paginator]="true"
-            [globalFilterFields]="['name','country.name','representative.name','status']"
+        <p-table #dt [value]="motoristas" [rows]="10" [paginator]="true" [totalRecords]="motoristas.length"
+            [globalFilterFields]="['nombre','apellido','ciudad','experiencia']"
             [(selection)]="motoristaSeleccionado" [rowHover]="true" dataKey="_id"
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} motoristas"
             [showCurrentPageReport]="true">

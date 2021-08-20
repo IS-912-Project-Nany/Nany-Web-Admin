@@ -20,8 +20,8 @@
             </span>
         </p-toolbar>
 
-        <p-table #dt [value]="productos" [rows]="10" [paginator]="true"
-            [globalFilterFields]="['name','country.name','representative.name','status']"
+        <p-table #dt [value]="productos" [rows]="10" [paginator]="true" [totalRecords]="productos.length"
+            [globalFilterFields]="['nombre','descripcion','empresa']"
             [(selection)]="productoSeleccionado" [rowHover]="true" dataKey="_id"
             currentPageReportTemplate="Mostrar de {first} a {last} de {totalRecords} productos"
             [showCurrentPageReport]="true">
