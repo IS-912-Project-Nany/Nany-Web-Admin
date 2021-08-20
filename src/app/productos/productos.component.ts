@@ -208,7 +208,7 @@ export class ProductosComponent {
     console.log(file);
     this.uploadedFiles.push(file);
     this.formData.append("imagen", file);
-    this.formData.append("folder", 'usuarios');
+    this.formData.append("folder", 'productos');
 
     this.uploadService.subirImagen(this.formData).subscribe(
       result => {
